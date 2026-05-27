@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Spilled Milk — Engagement Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Arial' font-size='18' fill='%23fff' font-weight='700'%3ESM%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #111;
+      --panel-2: #161616;
+      --line: #1f1f1f;
+      --line-2: #2a2a2a;
+      --text: #fafafa;
+      --text-dim: #9a9a9a;
+      --text-mute: #6b6b6b;
+      --accent: #ffffff;
+      --good: #34d399;
+      --warn: #fbbf24;
+      --bad: #f87171;
+      --milk: #f5f5f0;
+      --blood: #c1121f;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    a { color: inherit; }
+
+    /* HEADER */
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand .logo {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: #000; border: 1px solid var(--line-2);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 11px; letter-spacing: 0.18em;
+    }
+    .brand .title { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+    .brand .sub { font-size: 11px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 1px; }
+    .range-pills { display: flex; gap: 6px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 4px; }
+    .range-pill { font-size: 12px; padding: 6px 13px; border-radius: 999px; color: var(--text-dim); cursor: pointer; border: none; background: transparent; font-family: inherit; }
+    .range-pill.active { background: #fff; color: #000; font-weight: 600; }
+    .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; color: var(--text-dim); }
+    .status-pill .ld { width: 6px; height: 6px; border-radius: 50%; background: var(--good); box-shadow: 0 0 10px var(--good); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* PAGE HEAD */
+    .page-head { padding: 40px 0 24px; }
+    .page-head h1 { margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.02em; }
+    .page-head p { margin: 6px 0 0; color: var(--text-dim); font-size: 14px; max-width: 640px; }
+
+    /* KPI GRID */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding-bottom: 28px; }
+    @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .kpi-grid { grid-template-columns: 1fr; } }
+    .kpi-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-label { font-size: 11px; letter-spacing: 0.18em; color: var(--text-dim); text-transform: uppercase; font-weight: 600; }
+    .kpi-value { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-top: 8px; line-height: 1.05; }
+    .kpi-sub { font-size: 12px; color: var(--text-mute); margin-top: 4px; }
+    .kpi-delta { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; margin-top: 10px; padding: 3px 8px; border-radius: 6px; }
+    .kpi-delta.up { background: rgba(52,211,153,0.12); color: var(--good); }
+    .kpi-delta.down { background: rgba(248,113,113,0.12); color: var(--bad); }
+    .kpi-spark { position: absolute; right: 12px; bottom: 12px; opacity: 0.6; pointer-events: none; }
+
+    /* SECTIONS */
+    .grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; padding-bottom: 16px; }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; padding-bottom: 16px; }
+    @media (max-width: 900px) { .grid-3 { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .card-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 18px; }
+    .card-title { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
+    .card-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+    .card-action { font-size: 12px; color: var(--text-dim); }
+
+    /* LINE CHART */
+    .line-chart { width: 100%; height: 200px; }
+
+    /* BARS */
+    .bar-list { display: flex; flex-direction: column; gap: 14px; }
+    .bar-row { display: grid; grid-template-columns: 110px 1fr 56px; align-items: center; gap: 12px; }
+    .bar-row .lbl { font-size: 13px; color: var(--text); }
+    .bar-row .lbl small { display: block; color: var(--text-mute); font-size: 11px; margin-top: 2px; }
+    .bar-track { background: var(--panel-2); height: 8px; border-radius: 4px; overflow: hidden; }
+    .bar-fill { background: linear-gradient(90deg, #ffffff 0%, #d4d4d4 100%); height: 100%; border-radius: 4px; }
+    .bar-row .val { font-size: 13px; font-weight: 600; text-align: right; color: var(--text-dim); }
+
+    /* FUNNEL */
+    .funnel { display: flex; flex-direction: column; gap: 4px; }
+    .funnel-step { display: grid; grid-template-columns: 1fr 60px; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 8px; background: linear-gradient(90deg, var(--panel-2), transparent); border-left: 3px solid #fff; }
+    .funnel-step .fname { font-size: 13px; }
+    .funnel-step .fval { font-size: 14px; font-weight: 700; text-align: right; }
+    .funnel-step .fdrop { font-size: 11px; color: var(--bad); text-align: right; }
+
+    /* GEO LIST */
+    .geo-list { display: flex; flex-direction: column; }
+    .geo-row { display: grid; grid-template-columns: 22px 1fr 70px 50px; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .geo-row:last-child { border-bottom: none; }
+    .geo-row .flag { font-size: 18px; }
+    .geo-row .gn { color: var(--text); }
+    .geo-row .gn small { color: var(--text-mute); display: block; font-size: 11px; margin-top: 1px; }
+    .geo-row .gv { color: var(--text-dim); font-weight: 600; text-align: right; }
+    .geo-row .gp { font-size: 11px; color: var(--good); text-align: right; }
+
+    /* DEVICE DONUT */
+    .donut-wrap { display: flex; align-items: center; gap: 22px; }
+    .donut { flex-shrink: 0; }
+    .donut-legend { display: flex; flex-direction: column; gap: 10px; }
+    .donut-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+    .donut-row .swatch { width: 10px; height: 10px; border-radius: 2px; }
+    .donut-row .dname { color: var(--text); }
+    .donut-row .dpct { color: var(--text-dim); margin-left: auto; font-weight: 600; }
+
+    /* CAST INTEREST */
+    .cast-bar-list { display: flex; flex-direction: column; gap: 12px; }
+    .cast-bar-row { display: flex; align-items: center; gap: 12px; }
+    .cast-avi { width: 40px; height: 40px; border-radius: 50%; background: var(--panel-2) center/cover no-repeat; flex-shrink: 0; }
+    .cast-bar-body { flex: 1; min-width: 0; }
+    .cast-bar-name { font-size: 13px; font-weight: 600; }
+    .cast-bar-role { font-size: 11px; color: var(--text-mute); }
+    .cast-bar-track { background: var(--panel-2); height: 6px; border-radius: 3px; margin-top: 6px; overflow: hidden; }
+    .cast-bar-fill { height: 100%; border-radius: 3px; }
+    .cast-bar-val { font-size: 13px; font-weight: 700; min-width: 56px; text-align: right; color: var(--text); }
+
+    /* ACTIVITY TABLE */
+    .activity { display: flex; flex-direction: column; }
+    .activity-row { display: grid; grid-template-columns: 90px 1fr 70px; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13px; align-items: center; }
+    .activity-row:last-child { border-bottom: none; }
+    .activity-time { color: var(--text-mute); font-size: 11px; }
+    .activity-action { color: var(--text); }
+    .activity-action .ev { color: var(--text-dim); }
+    .activity-loc { color: var(--text-dim); font-size: 11px; text-align: right; }
+
+    /* FOOTER */
+    .footer { padding: 28px 0 40px; color: var(--text-mute); font-size: 12px; text-align: center; letter-spacing: 0.06em; }
+
+    /* DEMO BANNER */
+    .demo-banner { background: linear-gradient(90deg, rgba(193,18,31,0.12), transparent); border: 1px solid rgba(193,18,31,0.3); border-radius: 10px; padding: 10px 14px; font-size: 12px; color: var(--text); margin: 16px 0 0; display: flex; align-items: center; gap: 10px; }
+    .demo-banner svg { width: 14px; height: 14px; fill: var(--blood); flex-shrink: 0; }
+
+    /* small helpers */
+    .row { display: flex; align-items: center; gap: 8px; }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="logo">SM</div>
+        <div>
+          <div class="title">Spilled Milk</div>
+          <div class="sub">Engagement Dashboard</div>
+        </div>
+      </div>
+      <div class="row">
+        <span class="status-pill"><span class="ld"></span> Live</span>
+        <div class="range-pills">
+          <button class="range-pill">24h</button>
+          <button class="range-pill">7d</button>
+          <button class="range-pill active">30d</button>
+          <button class="range-pill">All</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="page-head">
+      <h1>Audience Engagement</h1>
+      <p>Live performance across NFC keychain taps, web sessions, and on-site interactions. Updated in near real-time.</p>
+      <div class="demo-banner">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 6l6.5 11h-13L12 8zm-1 4v3h2v-3h-2zm0 4v2h2v-2h-2z"/></svg>
+        <span>This dashboard is connected to <strong>spilledmilkthemovie.vercel.app</strong>. Sample data shown for demo — wire up Vercel Analytics + a custom event endpoint to go live.</span>
+      </div>
+    </section>
+
+    <!-- KPI ROW -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">NFC Taps</div>
+        <div class="kpi-value">14,206</div>
+        <div class="kpi-sub">Total since launch</div>
+        <span class="kpi-delta up">↑ 32.4% vs prev 30d</span>
+        <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,26 10,22 20,24 30,16 40,18 50,10 60,12 70,4 80,6" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Unique Visitors</div>
+        <div class="kpi-value">9,841</div>
+        <div class="kpi-sub">Last 30 days</div>
+        <span class="kpi-delta up">↑ 18.7%</span>
+        <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,22 10,20 20,18 30,15 40,16 50,11 60,9 70,7 80,5" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg Time on Site</div>
+        <div class="kpi-value">2:43</div>
+        <div class="kpi-sub">Median 2:18</div>
+        <span class="kpi-delta up">↑ 0:24</span>
+        <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,18 10,20 20,17 30,14 40,16 50,11 60,12 70,9 80,8" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Trailer Play Rate</div>
+        <div class="kpi-value">68.4%</div>
+        <div class="kpi-sub">6,733 plays / 9,841 sessions</div>
+        <span class="kpi-delta down">↓ 2.1%</span>
+        <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,8 10,10 20,7 30,9 40,11 50,12 60,10 70,13 80,14" fill="none" stroke="#f87171" stroke-width="1.5"/></svg>
+      </div>
+    </section>
+
+    <!-- SESSIONS LINE CHART + FUNNEL -->
+    <section class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Sessions over time</div>
+            <div class="card-sub">Daily NFC taps vs. organic web visits, last 30 days</div>
+          </div>
+          <div class="card-action">▲ 32.4%</div>
+        </div>
+        <svg class="line-chart" viewBox="0 0 600 200" preserveAspectRatio="none">
+          <!-- Grid -->
+          <line x1="0" y1="40" x2="600" y2="40" stroke="#1f1f1f" stroke-width="1"/>
+          <line x1="0" y1="80" x2="600" y2="80" stroke="#1f1f1f" stroke-width="1"/>
+          <line x1="0" y1="120" x2="600" y2="120" stroke="#1f1f1f" stroke-width="1"/>
+          <line x1="0" y1="160" x2="600" y2="160" stroke="#1f1f1f" stroke-width="1"/>
+          <!-- NFC area -->
+          <path d="M0,170 L20,160 L40,155 L60,148 L80,130 L100,135 L120,118 L140,110 L160,95 L180,98 L200,82 L220,78 L240,90 L260,72 L280,68 L300,55 L320,62 L340,48 L360,52 L380,40 L400,44 L420,38 L440,30 L460,42 L480,32 L500,28 L520,35 L540,22 L560,28 L580,18 L600,22 L600,200 L0,200 Z" fill="url(#nfcFill)" opacity="0.5"/>
+          <path d="M0,170 L20,160 L40,155 L60,148 L80,130 L100,135 L120,118 L140,110 L160,95 L180,98 L200,82 L220,78 L240,90 L260,72 L280,68 L300,55 L320,62 L340,48 L360,52 L380,40 L400,44 L420,38 L440,30 L460,42 L480,32 L500,28 L520,35 L540,22 L560,28 L580,18 L600,22" fill="none" stroke="#fff" stroke-width="2"/>
+          <!-- Web visits line -->
+          <path d="M0,180 L20,178 L40,172 L60,170 L80,165 L100,168 L120,160 L140,158 L160,150 L180,152 L200,145 L220,142 L240,148 L260,138 L280,135 L300,130 L320,132 L340,125 L360,128 L380,120 L400,122 L420,118 L440,115 L460,120 L480,112 L500,110 L520,115 L540,105 L560,108 L580,100 L600,103" fill="none" stroke="#9a9a9a" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <defs>
+            <linearGradient id="nfcFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div style="display: flex; gap: 18px; margin-top: 14px; font-size: 12px; color: var(--text-dim);">
+          <span class="row"><span style="width: 12px; height: 2px; background: #fff;"></span> NFC Taps</span>
+          <span class="row"><span style="width: 12px; height: 2px; background: #9a9a9a; border-bottom: 1px dashed;"></span> Web Visits</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Trailer Funnel</div>
+            <div class="card-sub">From play to completion</div>
+          </div>
+        </div>
+        <div class="funnel">
+          <div class="funnel-step"><div class="fname">Sessions</div><div><div class="fval">9,841</div></div></div>
+          <div class="funnel-step" style="border-left-color:#e5e5e5; opacity: 0.95;"><div class="fname">Trailer Started</div><div><div class="fval">6,733</div><div class="fdrop">−31.6%</div></div></div>
+          <div class="funnel-step" style="border-left-color:#bdbdbd; opacity: 0.9;"><div class="fname">Reached 25%</div><div><div class="fval">5,914</div><div class="fdrop">−12.2%</div></div></div>
+          <div class="funnel-step" style="border-left-color:#9a9a9a; opacity: 0.85;"><div class="fname">Reached 50%</div><div><div class="fval">5,127</div><div class="fdrop">−13.3%</div></div></div>
+          <div class="funnel-step" style="border-left-color:#6b6b6b; opacity: 0.8;"><div class="fname">Reached 75%</div><div><div class="fval">4,489</div><div class="fdrop">−12.4%</div></div></div>
+          <div class="funnel-step" style="border-left-color:#c1121f; opacity: 0.95;"><div class="fname">Completed Trailer</div><div><div class="fval">3,802</div><div class="fdrop">−15.3%</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB ENGAGEMENT + DEVICES + CAST INTEREST -->
+    <section class="grid-3">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Tab engagement</div>
+            <div class="card-sub">% of sessions viewing each tab</div>
+          </div>
+        </div>
+        <div class="bar-list">
+          <div class="bar-row"><div class="lbl">Video<small>Default landing</small></div><div class="bar-track"><div class="bar-fill" style="width: 100%;"></div></div><div class="val">100%</div></div>
+          <div class="bar-row"><div class="lbl">Cast<small>Bio reveals</small></div><div class="bar-track"><div class="bar-fill" style="width: 58%;"></div></div><div class="val">58%</div></div>
+          <div class="bar-row"><div class="lbl">BTS<small>Photo gallery</small></div><div class="bar-track"><div class="bar-fill" style="width: 41%;"></div></div><div class="val">41%</div></div>
+          <div class="bar-row"><div class="lbl">Forum<small>Discussion</small></div><div class="bar-track"><div class="bar-fill" style="width: 22%;"></div></div><div class="val">22%</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Device split</div>
+            <div class="card-sub">Among NFC tap-ins</div>
+          </div>
+        </div>
+        <div class="donut-wrap">
+          <svg class="donut" width="120" height="120" viewBox="0 0 42 42">
+            <!-- iOS 78% -->
+            <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#fff" stroke-width="6" stroke-dasharray="78 22" stroke-dashoffset="25"/>
+            <!-- Android 19% -->
+            <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#9a9a9a" stroke-width="6" stroke-dasharray="19 81" stroke-dashoffset="-53"/>
+            <!-- Other 3% -->
+            <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#c1121f" stroke-width="6" stroke-dasharray="3 97" stroke-dashoffset="-72"/>
+            <text x="21" y="20" text-anchor="middle" font-size="6" fill="#fff" font-weight="700">9,841</text>
+            <text x="21" y="26" text-anchor="middle" font-size="3" fill="#9a9a9a">visitors</text>
+          </svg>
+          <div class="donut-legend">
+            <div class="donut-row"><span class="swatch" style="background: #fff;"></span><span class="dname">iOS</span><span class="dpct">78%</span></div>
+            <div class="donut-row"><span class="swatch" style="background: #9a9a9a;"></span><span class="dname">Android</span><span class="dpct">19%</span></div>
+            <div class="donut-row"><span class="swatch" style="background: #c1121f;"></span><span class="dname">Other</span><span class="dpct">3%</span></div>
+          </div>
+        </div>
+        <div style="margin-top: 18px; font-size: 11px; color: var(--text-mute); padding-top: 14px; border-top: 1px solid var(--line);">iPhone 15 is the top model — 28% of all taps.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Cast interest</div>
+            <div class="card-sub">Most-expanded bios</div>
+          </div>
+        </div>
+        <div class="cast-bar-list">
+          <div class="cast-bar-row">
+            <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/1f7f5add-dd3f-47e5-b0a8-ed4e00f29962/media_15293ce57c1e5535ff2ea35261a00aa0f015d355f.png?format=300w')"></div>
+            <div class="cast-bar-body">
+              <div class="cast-bar-name">Kid Cudi</div>
+              <div class="cast-bar-role">Barry</div>
+              <div class="cast-bar-track"><div class="cast-bar-fill" style="width: 100%; background: linear-gradient(90deg, #fff, #d4d4d4);"></div></div>
+            </div>
+            <div class="cast-bar-val">3,412</div>
+          </div>
+          <div class="cast-bar-row">
+            <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/081d9cd0-60c1-491e-851d-25d6a9869d62/jerry-oconnell-2025-oscars-021316-43eee350443044afbd80fc05d3f31bdf.jpg?format=300w')"></div>
+            <div class="cast-bar-body">
+              <div class="cast-bar-name">Jerry O'Connell</div>
+              <div class="cast-bar-role">The Milk Man</div>
+              <div class="cast-bar-track"><div class="cast-bar-fill" style="width: 76%; background: linear-gradient(90deg, #e5e5e5, #b4b4b4);"></div></div>
+            </div>
+            <div class="cast-bar-val">2,597</div>
+          </div>
+          <div class="cast-bar-row">
+            <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/9b246ce1-5327-4ea6-a0b0-d0bce53d6018/GettyImages-2161696087-H-2024.webp')"></div>
+            <div class="cast-bar-body">
+              <div class="cast-bar-name">Brandon Perea</div>
+              <div class="cast-bar-role">Jose</div>
+              <div class="cast-bar-track"><div class="cast-bar-fill" style="width: 64%; background: linear-gradient(90deg, #d4d4d4, #9a9a9a);"></div></div>
+            </div>
+            <div class="cast-bar-val">2,184</div>
+          </div>
+          <div class="cast-bar-row">
+            <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/11f9b4d1-0def-44aa-8d46-8c02f220c257/MV5BY2MwNGU3ODktNDMzZi00ZTMwLWE3ZGMtZmY4Nzg1ZGMwZDcwXkEyXkFqcGc%40._V1_FMjpg_UX1000_.jpg?format=300w')"></div>
+            <div class="cast-bar-body">
+              <div class="cast-bar-name">J Alphonse Nicholson</div>
+              <div class="cast-bar-role">Trey Carver</div>
+              <div class="cast-bar-track"><div class="cast-bar-fill" style="width: 49%; background: linear-gradient(90deg, #b4b4b4, #7c7c7c);"></div></div>
+            </div>
+            <div class="cast-bar-val">1,673</div>
+          </div>
+          <div class="cast-bar-row">
+            <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/4df196e6-f797-490a-8d86-cd4db856529b/MV5BNTVhYjc5NWMtYmY3Yi00NWMwLTk3ODYtOWFiMTA5NTVlZGEzXkEyXkFqcGc%40._V1_.jpg?format=300w')"></div>
+            <div class="cast-bar-body">
+              <div class="cast-bar-name">Rodney Van Johnson</div>
+              <div class="cast-bar-role">Marcus Carver</div>
+              <div class="cast-bar-track"><div class="cast-bar-fill" style="width: 31%; background: linear-gradient(90deg, #9a9a9a, #6b6b6b);"></div></div>
+            </div>
+            <div class="cast-bar-val">1,049</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GEO + RECENT ACTIVITY -->
+    <section class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Top cities</div>
+            <div class="card-sub">Where the keychains are getting tapped</div>
+          </div>
+          <div class="card-action">View map →</div>
+        </div>
+        <div class="geo-list">
+          <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">New York City<small>NY, USA</small></span><span class="gv">2,847</span><span class="gp">↑ 41%</span></div>
+          <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Los Angeles<small>CA, USA</small></span><span class="gv">1,962</span><span class="gp">↑ 28%</span></div>
+          <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Atlanta<small>GA, USA</small></span><span class="gv">1,134</span><span class="gp">↑ 35%</span></div>
+          <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Chicago<small>IL, USA</small></span><span class="gv">786</span><span class="gp">↑ 18%</span></div>
+          <div class="geo-row"><span class="flag">🇬🇧</span><span class="gn">London<small>England, UK</small></span><span class="gv">612</span><span class="gp">↑ 22%</span></div>
+          <div class="geo-row"><span class="flag">🇨🇦</span><span class="gn">Toronto<small>ON, Canada</small></span><span class="gv">488</span><span class="gp">↑ 14%</span></div>
+          <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Austin<small>TX, USA</small></span><span class="gv">421</span><span class="gp">↑ 9%</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Live activity</div>
+            <div class="card-sub">Last 5 minutes</div>
+          </div>
+          <span class="status-pill"><span class="ld"></span> Streaming</span>
+        </div>
+        <div class="activity">
+          <div class="activity-row"><span class="activity-time">just now</span><span class="activity-action">NFC tap <span class="ev">· landed on Video</span></span><span class="activity-loc">Brooklyn, NY</span></div>
+          <div class="activity-row"><span class="activity-time">12s ago</span><span class="activity-action">Trailer play <span class="ev">· started</span></span><span class="activity-loc">Echo Park, LA</span></div>
+          <div class="activity-row"><span class="activity-time">38s ago</span><span class="activity-action">Cast expanded <span class="ev">· Kid Cudi</span></span><span class="activity-loc">Atlanta, GA</span></div>
+          <div class="activity-row"><span class="activity-time">1m ago</span><span class="activity-action">BTS viewed <span class="ev">· 14 images</span></span><span class="activity-loc">Bushwick, NY</span></div>
+          <div class="activity-row"><span class="activity-time">1m ago</span><span class="activity-action">Forum thread opened <span class="ev">· milkman_theories</span></span><span class="activity-loc">Camden, London</span></div>
+          <div class="activity-row"><span class="activity-time">2m ago</span><span class="activity-action">Trailer completed <span class="ev">· 100%</span></span><span class="activity-loc">Silver Lake, LA</span></div>
+          <div class="activity-row"><span class="activity-time">2m ago</span><span class="activity-action">Cast expanded <span class="ev">· Jerry O'Connell</span></span><span class="activity-loc">East Village, NY</span></div>
+          <div class="activity-row"><span class="activity-time">3m ago</span><span class="activity-action">NFC tap <span class="ev">· landed on Video</span></span><span class="activity-loc">Toronto, ON</span></div>
+          <div class="activity-row"><span class="activity-time">4m ago</span><span class="activity-action">Cast expanded <span class="ev">· Brandon Perea</span></span><span class="activity-loc">Inglewood, LA</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Drop-off & retention</div>
+            <div class="card-sub">Sessions returning within 7 days</div>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 4px;">
+          <div style="text-align:center"><div style="background:#fff; height:90px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">Day 0</div><div style="font-size:12px; font-weight:700;">100%</div></div>
+          <div style="text-align:center"><div style="background:#e5e5e5; height:54px; margin-top: 36px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D1</div><div style="font-size:12px; font-weight:700;">60%</div></div>
+          <div style="text-align:center"><div style="background:#c0c0c0; height:40px; margin-top: 50px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D2</div><div style="font-size:12px; font-weight:700;">44%</div></div>
+          <div style="text-align:center"><div style="background:#9a9a9a; height:30px; margin-top: 60px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D3</div><div style="font-size:12px; font-weight:700;">33%</div></div>
+          <div style="text-align:center"><div style="background:#7c7c7c; height:25px; margin-top: 65px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D4</div><div style="font-size:12px; font-weight:700;">28%</div></div>
+          <div style="text-align:center"><div style="background:#6b6b6b; height:21px; margin-top: 69px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D5</div><div style="font-size:12px; font-weight:700;">23%</div></div>
+          <div style="text-align:center"><div style="background:#c1121f; height:18px; margin-top: 72px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D7</div><div style="font-size:12px; font-weight:700;">20%</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Forum activity</div>
+            <div class="card-sub">7-day rolling</div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div style="padding:14px; background: var(--panel-2); border-radius:10px;">
+            <div style="font-size:11px; color:var(--text-dim); letter-spacing:0.16em; text-transform:uppercase;">Threads</div>
+            <div style="font-size:24px; font-weight:700; margin-top:4px;">147</div>
+            <div style="font-size:11px; color: var(--good); margin-top:4px;">↑ 22 this week</div>
+          </div>
+          <div style="padding:14px; background: var(--panel-2); border-radius:10px;">
+            <div style="font-size:11px; color:var(--text-dim); letter-spacing:0.16em; text-transform:uppercase;">Replies</div>
+            <div style="font-size:24px; font-weight:700; margin-top:4px;">1,284</div>
+            <div style="font-size:11px; color: var(--good); margin-top:4px;">↑ 186 this week</div>
+          </div>
+          <div style="padding:14px; background: var(--panel-2); border-radius:10px;">
+            <div style="font-size:11px; color:var(--text-dim); letter-spacing:0.16em; text-transform:uppercase;">Active Users</div>
+            <div style="font-size:24px; font-weight:700; margin-top:4px;">412</div>
+            <div style="font-size:11px; color: var(--good); margin-top:4px;">↑ 8% WoW</div>
+          </div>
+          <div style="padding:14px; background: var(--panel-2); border-radius:10px;">
+            <div style="font-size:11px; color:var(--text-dim); letter-spacing:0.16em; text-transform:uppercase;">Top Tag</div>
+            <div style="font-size:19px; font-weight:700; margin-top:4px;">#theories</div>
+            <div style="font-size:11px; color: var(--text-dim); margin-top:4px;">68 threads</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">© 2026, Ninety Third Story LLC · Spilled Milk Engagement Dashboard · Sample Data</div>
+  </main>
+
+</body>
+</html>
