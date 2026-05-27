@@ -211,9 +211,9 @@
     .theme-card .info .t2 { font-size: 15px; font-weight: 600; margin-top: 2px; }
 
     /* ====== FORUM TAB ====== */
-    .forum-head, .cast-head, .bts-head { padding: 24px 20px 8px; }
-    .forum-head h1, .cast-head h1, .bts-head h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
-    .forum-head p, .cast-head p, .bts-head p { margin: 4px 0 0; font-size: 13px; color: var(--text-dim); }
+    .forum-head, .cast-head { padding: 24px 20px 8px; }
+    .forum-head h1, .cast-head h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.01em; }
+    .forum-head p, .cast-head p { margin: 4px 0 0; font-size: 13px; color: var(--text-dim); }
 
     .filter-row { display: flex; gap: 8px; padding: 12px 20px 6px; overflow-x: auto; scrollbar-width: none; }
     .filter-row::-webkit-scrollbar { display: none; }
@@ -248,44 +248,41 @@
     .expand-row::after { content: " +"; }
     .cast-card.expanded .expand-row::after { content: " −"; }
 
-    /* ====== BTS TAB ====== */
-    .bts-grid {
-      padding: 14px 14px 28px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
+    /* ====== STORE TAB (Coming Soon) ====== */
+    .store-wrap {
+      min-height: calc(100vh - 64px - 64px - var(--safe-b));
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 60px 24px;
+      text-align: center;
     }
-    .bts-cell {
-      position: relative;
-      aspect-ratio: 1 / 1;
-      background: var(--bg-elev-2) center/cover no-repeat;
-      border-radius: 8px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.15s ease;
-    }
-    .bts-cell:active { transform: scale(0.97); }
-    .bts-feature {
-      grid-column: 1 / -1;
-      aspect-ratio: 16 / 9;
-    }
-    .lightbox {
-      position: fixed; inset: 0; z-index: 50;
-      background: rgba(0,0,0,0.96);
-      display: none;
-      align-items: center; justify-content: center;
-      padding: 20px;
-      cursor: pointer;
-    }
-    .lightbox.open { display: flex; }
-    .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .lightbox .lb-close {
-      position: absolute; top: calc(env(safe-area-inset-top, 0px) + 16px); right: 16px;
-      width: 38px; height: 38px; border-radius: 50%;
-      background: rgba(255,255,255,0.12);
+    .store-glyph {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 1px solid var(--line-2);
       display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: 22px; line-height: 1; font-weight: 300;
+      margin-bottom: 28px;
+      opacity: 0.85;
     }
+    .store-glyph svg { width: 28px; height: 28px; fill: #fff; }
+    .store-soon {
+      font-size: clamp(28px, 7vw, 44px);
+      font-weight: 700; letter-spacing: 0.34em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .store-sub {
+      margin-top: 18px;
+      font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-dim);
+      max-width: 340px;
+    }
+    .store-pulse {
+      margin-top: 28px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--danger);
+      box-shadow: 0 0 16px var(--danger);
+      animation: store-pulse 1.8s infinite;
+    }
+    @keyframes store-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
     /* ====== BOTTOM TAB BAR ====== */
     .tab-bar {
@@ -312,7 +309,6 @@
 
     @media (min-width: 600px) {
       .hero { aspect-ratio: 21/9; }
-      .bts-grid { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
 </head>
@@ -538,47 +534,19 @@
       <div class="copyright">© 2026, Ninety Third Story LLC</div>
     </section>
 
-    <!-- ========== BTS TAB ========== -->
-    <section id="tab-bts" class="tab-panel">
-      <div class="bts-head">
-        <h1>Behind the Scenes</h1>
-        <p>Stills from behind the chills, thrills, and spills. Tap any image.</p>
-      </div>
-
-      <div class="bts-grid" id="bts-grid">
-        <div class="bts-cell bts-feature" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/f58a3150-70f5-48ce-b726-c9772b0bcb9f/SCRIPTED+1st+15.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/f58a3150-70f5-48ce-b726-c9772b0bcb9f/SCRIPTED+1st+15.png?format=1200w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/6b7c7492-cb5b-45e6-b396-20844154a842/Sequence+01.00_18_43_12.Still118.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/6b7c7492-cb5b-45e6-b396-20844154a842/Sequence+01.00_18_43_12.Still118.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/d5c56efe-0b44-4aeb-b1d6-750f19ad79d0/STILLS.01_05_27_00.Still028.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/d5c56efe-0b44-4aeb-b1d6-750f19ad79d0/STILLS.01_05_27_00.Still028.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/9288b1b7-c3f0-45c8-b82a-d997ef4c687b/Sequence+01.00_03_55_04.Still122.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/9288b1b7-c3f0-45c8-b82a-d997ef4c687b/Sequence+01.00_03_55_04.Still122.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/27895f0a-7cf2-43a7-85d9-3356ce0298b7/Sequence+01.00_08_22_22.Still125.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/27895f0a-7cf2-43a7-85d9-3356ce0298b7/Sequence+01.00_08_22_22.Still125.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/91037c23-0d04-4775-adda-95a00173ceaa/Sequence+01.00_13_46_06.Still128.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/91037c23-0d04-4775-adda-95a00173ceaa/Sequence+01.00_13_46_06.Still128.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/61bc3ae1-4cd8-4326-bdf8-31cd87d4f79b/Sequence+01.00_15_03_04.Still130.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/61bc3ae1-4cd8-4326-bdf8-31cd87d4f79b/Sequence+01.00_15_03_04.Still130.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/a20325c1-a5f8-405c-82cd-397b3c73566a/Sequence+01.00_17_48_16.Still131.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/a20325c1-a5f8-405c-82cd-397b3c73566a/Sequence+01.00_17_48_16.Still131.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/bb91c0d0-df34-446e-96cf-1937bcae6f3b/Sequence+01.00_19_43_09.Still132.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/bb91c0d0-df34-446e-96cf-1937bcae6f3b/Sequence+01.00_19_43_09.Still132.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/5e2830d4-183b-4d8e-903e-df25a1e904aa/Sequence+01.00_22_51_10.Still136.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/5e2830d4-183b-4d8e-903e-df25a1e904aa/Sequence+01.00_22_51_10.Still136.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/66d649df-e77f-420e-b6e9-65766b1d09fe/Sequence+01.00_25_04_07.Still138.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/66d649df-e77f-420e-b6e9-65766b1d09fe/Sequence+01.00_25_04_07.Still138.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/72abc74b-8184-478a-8276-2c15f8ab42cc/Sequence+01.00_26_33_07.Still141.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/72abc74b-8184-478a-8276-2c15f8ab42cc/Sequence+01.00_26_33_07.Still141.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/d863f890-4f12-45a8-9ee4-d88f06355a0b/Sequence+01.00_29_53_19.Still143.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/d863f890-4f12-45a8-9ee4-d88f06355a0b/Sequence+01.00_29_53_19.Still143.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/e3265f5e-0461-4e06-8afb-ea8d88dc0a0f/Sequence+01.00_33_01_07.Still145.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/e3265f5e-0461-4e06-8afb-ea8d88dc0a0f/Sequence+01.00_33_01_07.Still145.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/6ef38de4-3db2-48fd-889b-9db146022b0c/Sequence+01.00_37_02_16.Still147.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/6ef38de4-3db2-48fd-889b-9db146022b0c/Sequence+01.00_37_02_16.Still147.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/86edab6a-dbd1-4e66-890e-cffaf849d0ff/Sequence+01.00_39_30_13.Still150.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/86edab6a-dbd1-4e66-890e-cffaf849d0ff/Sequence+01.00_39_30_13.Still150.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/2f7c8a92-dce3-4855-b7a0-9080752ceeb6/Sequence+01.00_41_10_00.Still153.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/2f7c8a92-dce3-4855-b7a0-9080752ceeb6/Sequence+01.00_41_10_00.Still153.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/b3af9481-3452-4314-8662-65072a984523/Sequence+01.00_46_55_23.Still160.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/b3af9481-3452-4314-8662-65072a984523/Sequence+01.00_46_55_23.Still160.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/47d2cba9-9a1d-493d-adff-eb9d2ed81d26/Sequence+01.00_48_26_19.Still161.png?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/47d2cba9-9a1d-493d-adff-eb9d2ed81d26/Sequence+01.00_48_26_19.Still161.png?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/c637db44-04bd-44ca-ae3c-14d6a19f00e6/IMG_0657.jpeg?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/c637db44-04bd-44ca-ae3c-14d6a19f00e6/IMG_0657.jpeg?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/180c9e0a-7a82-42bb-83e7-e7cdb09748bc/IMG_0667.jpeg?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/180c9e0a-7a82-42bb-83e7-e7cdb09748bc/IMG_0667.jpeg?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/0c93d74a-f2bb-430e-a7ad-3425d478483f/IMG_0672.jpeg?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/0c93d74a-f2bb-430e-a7ad-3425d478483f/IMG_0672.jpeg?format=700w')"></div>
-        <div class="bts-cell" data-src="https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/b6c1e7fb-49f7-476d-b103-dd5c336c7943/IMG_0682.jpeg?format=2000w" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/b6c1e7fb-49f7-476d-b103-dd5c336c7943/IMG_0682.jpeg?format=700w')"></div>
+    <!-- ========== STORE TAB ========== -->
+    <section id="tab-store" class="tab-panel">
+      <div class="store-wrap">
+        <div class="store-glyph">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 4h10l1 4H6l1-4zm-1 6h12v10H6V10zm4 3v2h4v-2h-4z"/></svg>
+        </div>
+        <div class="store-soon">Coming Soon</div>
+        <div class="store-sub">Merch · Posters · Soundtrack · Limited Drops</div>
+        <div class="store-pulse"></div>
       </div>
     </section>
 
   </main>
-
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
-    <button class="lb-close" aria-label="Close">×</button>
-    <img id="lb-img" alt="" />
-  </div>
 
   <nav class="tab-bar" role="tablist">
     <button class="tab-btn active" data-tab="video" type="button" aria-label="Video">
@@ -593,9 +561,9 @@
       <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
       <span class="lbl">Cast</span>
     </button>
-    <button class="tab-btn" data-tab="bts" type="button" aria-label="BTS">
-      <svg viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/><circle cx="12" cy="12" r="3.2"/></svg>
-      <span class="lbl">BTS</span>
+    <button class="tab-btn" data-tab="store" type="button" aria-label="Store">
+      <svg viewBox="0 0 24 24"><path d="M7 4h10l1 4H6l1-4zm-1 6h12v10H6V10zm4 3v2h4v-2h-4z"/></svg>
+      <span class="lbl">Store</span>
     </button>
   </nav>
 
@@ -641,16 +609,7 @@
         });
       }
 
-      // ===== Lightbox for BTS =====
-      const lb = document.getElementById('lightbox');
-      const lbImg = document.getElementById('lb-img');
-      document.querySelectorAll('.bts-cell').forEach(cell => {
-        cell.addEventListener('click', () => {
-          lbImg.src = cell.dataset.src;
-          lb.classList.add('open');
-        });
-      });
-      lb.addEventListener('click', () => { lb.classList.remove('open'); lbImg.src = ''; });
+      // (BTS lightbox removed — Store tab is a placeholder for now)
     })();
   </script>
 
