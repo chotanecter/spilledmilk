@@ -685,6 +685,7 @@
       // ===== Identity / name capture =====
       const NAME_KEY = 'sm_user_name';
       const ID_KEY = 'sm_user_id';
+      const KEYCHAIN_KEY = 'sm_keychain_id';
       const modal = document.getElementById('name-modal');
       const form = document.getElementById('name-form');
       const input = document.getElementById('name-input');
@@ -701,6 +702,21 @@
         return id;
       }
 
+      // Read ?k= from URL (the keychain's printed ID). Persist it so we know
+      // which physical keychain this device is bound to even on later taps
+      // from non-tagged URLs.
+      function getKeychainId() {
+        try {
+          const params = new URLSearchParams(location.search);
+          const fromUrl = (params.get('k') || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 16);
+          if (fromUrl) {
+            try { localStorage.setItem(KEYCHAIN_KEY, fromUrl); } catch(e) {}
+            return fromUrl;
+          }
+          return localStorage.getItem(KEYCHAIN_KEY) || null;
+        } catch(e) { return null; }
+      }
+
       function startCurtain() {
         document.body.classList.add('curtain-go');
         setTimeout(() => {
@@ -710,17 +726,21 @@
       }
 
       function sendIdentify(name, isReturning) {
-        const id = getOrCreateId();
+        const userId = getOrCreateId();
+        const keychainId = getKeychainId();
         const payload = {
           name: name,
-          id: id,
+          user_id: userId,
+          keychain_id: keychainId,
+          // legacy: keep `id` for back-compat with first deployed identify.js
+          id: keychainId || userId,
           returning: !!isReturning,
           ts: Date.now(),
           ua: navigator.userAgent,
           lang: navigator.language,
           tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
           ref: document.referrer || null,
-          path: location.pathname
+          path: location.pathname + location.search
         };
         try {
           if (navigator.sendBeacon) {
