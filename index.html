@@ -271,6 +271,10 @@
     }
     .play-btn:active { transform: scale(0.94); }
     .play-btn svg { width: 28px; height: 28px; margin-left: 4px; fill: #000; }
+    .hero iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 3; background: #000; }
+    .hero.playing::after { display: none; }
+    .hero.playing .play-btn,
+    .hero.playing .hero-caption { display: none; }
     .hero-caption {
       position: absolute; left: 14px; bottom: 12px; z-index: 2;
       font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
@@ -814,14 +818,22 @@
         card.addEventListener('click', () => card.classList.toggle('expanded'));
       });
 
-      // ===== Play button =====
+      // ===== Trailer embed =====
+      const hero = document.querySelector('.hero');
       const playBtn = document.querySelector('.play-btn');
-      if (playBtn) {
-        playBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          alert('Trailer drops soon. Add the YouTube/Vimeo embed here.');
-        });
+      function playTrailer(e) {
+        if (e) e.stopPropagation();
+        if (!hero || hero.classList.contains('playing')) return;
+        hero.classList.add('playing');
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://www.youtube.com/embed/C8J6vhWshTU?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('title', 'Spilled Milk Official Trailer');
+        hero.appendChild(iframe);
       }
+      if (playBtn) playBtn.addEventListener('click', playTrailer);
+      if (hero) hero.addEventListener('click', playTrailer);
 
       // (BTS lightbox removed — Store tab is a placeholder for now)
     })();
