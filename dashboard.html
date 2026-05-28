@@ -24,40 +24,34 @@
       --blood: #c1121f;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body {
-      margin: 0; padding: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
     .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
     a { color: inherit; }
+    button { font-family: inherit; }
 
     /* HEADER */
-    .topbar {
-      border-bottom: 1px solid var(--line);
-      padding: 18px 0;
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(10px);
-      position: sticky; top: 0; z-index: 10;
-    }
-    .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .topbar { border-bottom: 1px solid var(--line); padding: 18px 0 0; background: rgba(10,10,10,0.92); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
+    .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-bottom: 14px; }
     .brand { display: flex; align-items: center; gap: 12px; }
-    .brand .logo {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: #000; border: 1px solid var(--line-2);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 11px; letter-spacing: 0.18em;
-    }
+    .brand .logo { width: 36px; height: 36px; border-radius: 8px; background: #000; border: 1px solid var(--line-2); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; letter-spacing: 0.18em; }
     .brand .title { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
     .brand .sub { font-size: 11px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 1px; }
     .range-pills { display: flex; gap: 6px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 4px; }
-    .range-pill { font-size: 12px; padding: 6px 13px; border-radius: 999px; color: var(--text-dim); cursor: pointer; border: none; background: transparent; font-family: inherit; }
+    .range-pill { font-size: 12px; padding: 6px 13px; border-radius: 999px; color: var(--text-dim); cursor: pointer; border: none; background: transparent; }
     .range-pill.active { background: #fff; color: #000; font-weight: 600; }
     .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12px; color: var(--text-dim); }
     .status-pill .ld { width: 6px; height: 6px; border-radius: 50%; background: var(--good); box-shadow: 0 0 10px var(--good); animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .row { display: flex; align-items: center; gap: 8px; }
+
+    /* TAB NAV */
+    .nav-tabs { display: flex; gap: 4px; }
+    .nav-tab { background: transparent; border: none; padding: 12px 4px; margin: 0 14px 0 0; color: var(--text-dim); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+    .nav-tab.active { color: var(--text); border-bottom-color: #fff; }
+    .nav-tab:hover { color: var(--text); }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
 
     /* PAGE HEAD */
     .page-head { padding: 40px 0 24px; }
@@ -68,14 +62,7 @@
     .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding-bottom: 28px; }
     @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 480px) { .kpi-grid { grid-template-columns: 1fr; } }
-    .kpi-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 18px 18px 16px;
-      position: relative;
-      overflow: hidden;
-    }
+    .kpi-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; position: relative; overflow: hidden; }
     .kpi-label { font-size: 11px; letter-spacing: 0.18em; color: var(--text-dim); text-transform: uppercase; font-weight: 600; }
     .kpi-value { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-top: 8px; line-height: 1.05; }
     .kpi-sub { font-size: 12px; color: var(--text-mute); margin-top: 4px; }
@@ -89,12 +76,7 @@
     @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; padding-bottom: 16px; }
     @media (max-width: 900px) { .grid-3 { grid-template-columns: 1fr; } }
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 20px;
-    }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
     .card-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 18px; }
     .card-title { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
     .card-sub { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
@@ -160,331 +142,643 @@
 
     /* FOOTER */
     .footer { padding: 28px 0 40px; color: var(--text-mute); font-size: 12px; text-align: center; letter-spacing: 0.06em; }
-
-    /* DEMO BANNER */
     .demo-banner { background: linear-gradient(90deg, rgba(193,18,31,0.12), transparent); border: 1px solid rgba(193,18,31,0.3); border-radius: 10px; padding: 10px 14px; font-size: 12px; color: var(--text); margin: 16px 0 0; display: flex; align-items: center; gap: 10px; }
     .demo-banner svg { width: 14px; height: 14px; fill: var(--blood); flex-shrink: 0; }
 
-    /* small helpers */
-    .row { display: flex; align-items: center; gap: 8px; }
     ::-webkit-scrollbar { display: none; }
+
+    /* ========== CONTROL PANEL ========== */
+    .ctrl-toolbar { display: flex; align-items: center; gap: 12px; padding-bottom: 18px; flex-wrap: wrap; }
+    .search-wrap { position: relative; flex: 1; max-width: 380px; min-width: 200px; }
+    .search-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; fill: var(--text-mute); pointer-events: none; }
+    .search-wrap input { width: 100%; padding: 9px 14px 9px 34px; background: var(--panel); border: 1px solid var(--line-2); border-radius: 999px; color: var(--text); font-size: 13px; font-family: inherit; outline: none; }
+    .search-wrap input:focus { border-color: var(--text-mute); }
+    .seg { display: flex; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }
+    .seg button { font-size: 12px; padding: 6px 12px; border-radius: 999px; color: var(--text-dim); border: none; background: transparent; cursor: pointer; }
+    .seg button.active { background: #fff; color: #000; font-weight: 600; }
+    .btn-primary { background: #fff; color: #000; border: none; padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-primary svg { width: 14px; height: 14px; fill: #000; }
+    .btn-ghost { background: transparent; border: 1px solid var(--line-2); color: var(--text); padding: 9px 16px; border-radius: 999px; font-size: 13px; cursor: pointer; }
+    .btn-danger { background: rgba(248,113,113,0.12); color: var(--bad); border: 1px solid rgba(248,113,113,0.3); padding: 9px 16px; border-radius: 999px; font-size: 13px; cursor: pointer; font-weight: 600; }
+
+    .ctrl-layout { display: grid; grid-template-columns: 360px 1fr; gap: 16px; padding-bottom: 24px; }
+    @media (max-width: 980px) { .ctrl-layout { grid-template-columns: 1fr; } }
+
+    .holder-list-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; max-height: 760px; display: flex; flex-direction: column; }
+    .holder-list-head { padding: 16px 18px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
+    .holder-count { font-size: 11px; color: var(--text-dim); letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; }
+    .holder-list { flex: 1; overflow-y: auto; }
+    .holder-item { padding: 12px 18px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background 0.1s ease; position: relative; }
+    .holder-item:hover { background: rgba(255,255,255,0.02); }
+    .holder-item.selected { background: rgba(255,255,255,0.04); border-left: 3px solid #fff; padding-left: 15px; }
+    .holder-avi { width: 36px; height: 36px; border-radius: 50%; background: var(--panel-2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: var(--text); background-size: cover; background-position: center; }
+    .holder-info { flex: 1; min-width: 0; }
+    .holder-name { font-size: 13px; font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .holder-id { font-size: 11px; color: var(--text-mute); margin-top: 1px; font-family: ui-monospace, Menlo, monospace; letter-spacing: 0.02em; }
+    .holder-status { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .holder-status.active { background: var(--good); box-shadow: 0 0 8px rgba(52,211,153,0.6); }
+    .holder-status.paused { background: var(--warn); }
+    .holder-status.locked { background: var(--bad); }
+    .holder-status.new { background: #60a5fa; box-shadow: 0 0 8px rgba(96,165,250,0.6); }
+
+    .ctrl-detail-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+    .ctrl-detail-head { display: flex; align-items: flex-start; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--line); margin-bottom: 22px; }
+    .ctrl-detail-avi { width: 64px; height: 64px; border-radius: 50%; background: var(--panel-2); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 22px; flex-shrink: 0; background-size: cover; background-position: center; }
+    .ctrl-detail-name { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; }
+    .ctrl-detail-id { font-size: 12px; color: var(--text-mute); font-family: ui-monospace, Menlo, monospace; margin-top: 2px; letter-spacing: 0.02em; }
+    .ctrl-status-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 8px; }
+    .ctrl-status-tag.active { background: rgba(52,211,153,0.14); color: var(--good); }
+    .ctrl-status-tag.paused { background: rgba(251,191,36,0.14); color: var(--warn); }
+    .ctrl-status-tag.locked { background: rgba(248,113,113,0.14); color: var(--bad); }
+    .ctrl-status-tag.new { background: rgba(96,165,250,0.14); color: #60a5fa; }
+    .ctrl-detail-actions { margin-left: auto; display: flex; gap: 8px; flex-shrink: 0; }
+
+    /* INFO GRID */
+    .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding-bottom: 22px; }
+    @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+    .info-field { background: var(--panel-2); border-radius: 10px; padding: 12px 14px; }
+    .info-field-label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; }
+    .info-field-value { font-size: 14px; color: var(--text); margin-top: 4px; word-break: break-all; }
+    .info-field-value a { color: var(--text); text-decoration: none; }
+
+    /* CONTROL SECTIONS */
+    .ctrl-section { padding: 18px 0; border-top: 1px solid var(--line); }
+    .ctrl-section-title { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; margin-bottom: 12px; }
+    .form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .form-row label { font-size: 12px; color: var(--text-dim); }
+    .form-row input[type="text"], .form-row textarea, .form-row select { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; color: var(--text); font-size: 13px; padding: 9px 12px; font-family: inherit; outline: none; }
+    .form-row input[type="text"]:focus, .form-row textarea:focus, .form-row select:focus { border-color: var(--text-mute); }
+    .form-row textarea { resize: vertical; min-height: 60px; }
+    .form-row .hint { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+
+    .toggle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    @media (max-width: 600px) { .toggle-grid { grid-template-columns: 1fr; } }
+    .toggle-row { background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 11px 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .toggle-row .tname { font-size: 13px; color: var(--text); }
+    .toggle-row .tsub { font-size: 11px; color: var(--text-mute); margin-top: 1px; }
+    .toggle { position: relative; width: 38px; height: 22px; flex-shrink: 0; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle .track { position: absolute; inset: 0; background: var(--line-2); border-radius: 999px; cursor: pointer; transition: background 0.15s ease; }
+    .toggle .track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: #fff; border-radius: 50%; transition: transform 0.15s ease; }
+    .toggle input:checked + .track { background: var(--good); }
+    .toggle input:checked + .track::after { transform: translateX(16px); }
+
+    .schedule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 600px) { .schedule-grid { grid-template-columns: 1fr; } }
+
+    .audit-list { display: flex; flex-direction: column; }
+    .audit-row { padding: 9px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 92px 1fr 80px; gap: 10px; font-size: 12px; align-items: center; }
+    .audit-row:last-child { border-bottom: none; }
+    .audit-time { color: var(--text-mute); font-size: 11px; }
+    .audit-msg { color: var(--text); }
+    .audit-msg .who { color: var(--text-dim); }
+    .audit-loc { color: var(--text-dim); font-size: 11px; text-align: right; }
+
+    .save-bar { position: sticky; bottom: 16px; background: rgba(17,17,17,0.96); backdrop-filter: blur(12px); border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; box-shadow: 0 12px 32px rgba(0,0,0,0.6); }
+    .save-bar .dirty-msg { font-size: 12px; color: var(--warn); display: flex; align-items: center; gap: 8px; }
+    .save-bar .dirty-msg::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--warn); }
+    .save-bar .save-actions { display: flex; gap: 8px; }
   </style>
 </head>
 <body>
 
   <header class="topbar">
-    <div class="container topbar-inner">
-      <div class="brand">
-        <div class="logo">SM</div>
-        <div>
-          <div class="title">Spilled Milk</div>
-          <div class="sub">Engagement Dashboard</div>
+    <div class="container">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo">SM</div>
+          <div>
+            <div class="title">Spilled Milk</div>
+            <div class="sub">Engagement Dashboard</div>
+          </div>
+        </div>
+        <div class="row">
+          <span class="status-pill"><span class="ld"></span> Live</span>
+          <div class="range-pills">
+            <button class="range-pill">24h</button>
+            <button class="range-pill">7d</button>
+            <button class="range-pill active">30d</button>
+            <button class="range-pill">All</button>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <span class="status-pill"><span class="ld"></span> Live</span>
-        <div class="range-pills">
-          <button class="range-pill">24h</button>
-          <button class="range-pill">7d</button>
-          <button class="range-pill active">30d</button>
-          <button class="range-pill">All</button>
-        </div>
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-panel="overview">Overview</button>
+        <button class="nav-tab" data-panel="control">Control</button>
       </div>
     </div>
   </header>
 
   <main class="container">
 
-    <section class="page-head">
-      <h1>Audience Engagement</h1>
-      <p>Live performance across NFC keychain taps, web sessions, and on-site interactions. Updated in near real-time.</p>
-      <div class="demo-banner">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 6l6.5 11h-13L12 8zm-1 4v3h2v-3h-2zm0 4v2h2v-2h-2z"/></svg>
-        <span>This dashboard is connected to <strong>spilledmilkthemovie.vercel.app</strong>. Sample data shown for demo — wire up Vercel Analytics + a custom event endpoint to go live.</span>
-      </div>
-    </section>
+    <!-- ========== OVERVIEW PANEL ========== -->
+    <div id="panel-overview" class="panel active">
 
-    <!-- KPI ROW -->
-    <section class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">NFC Taps</div>
-        <div class="kpi-value">14,206</div>
-        <div class="kpi-sub">Total since launch</div>
-        <span class="kpi-delta up">↑ 32.4% vs prev 30d</span>
-        <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,26 10,22 20,24 30,16 40,18 50,10 60,12 70,4 80,6" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Unique Visitors</div>
-        <div class="kpi-value">9,841</div>
-        <div class="kpi-sub">Last 30 days</div>
-        <span class="kpi-delta up">↑ 18.7%</span>
-        <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,22 10,20 20,18 30,15 40,16 50,11 60,9 70,7 80,5" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Avg Time on Site</div>
-        <div class="kpi-value">2:43</div>
-        <div class="kpi-sub">Median 2:18</div>
-        <span class="kpi-delta up">↑ 0:24</span>
-        <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,18 10,20 20,17 30,14 40,16 50,11 60,12 70,9 80,8" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Trailer Play Rate</div>
-        <div class="kpi-value">68.4%</div>
-        <div class="kpi-sub">6,733 plays / 9,841 sessions</div>
-        <span class="kpi-delta down">↓ 2.1%</span>
-        <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,8 10,10 20,7 30,9 40,11 50,12 60,10 70,13 80,14" fill="none" stroke="#f87171" stroke-width="1.5"/></svg>
-      </div>
-    </section>
+      <section class="page-head">
+        <h1>Audience Engagement</h1>
+        <p>Live performance across NFC keychain taps, web sessions, and on-site interactions. Updated in near real-time.</p>
+        <div class="demo-banner">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 6l6.5 11h-13L12 8zm-1 4v3h2v-3h-2zm0 4v2h2v-2h-2z"/></svg>
+          <span>Connected to <strong>spilledmilkthemovie.vercel.app</strong>. Sample data shown for demo — wire up Vercel Analytics + custom event endpoint to go live.</span>
+        </div>
+      </section>
 
-    <!-- SESSIONS LINE CHART + FUNNEL -->
-    <section class="grid-2">
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Sessions over time</div>
-            <div class="card-sub">Daily NFC taps vs. organic web visits, last 30 days</div>
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">NFC Taps</div>
+          <div class="kpi-value">14,206</div>
+          <div class="kpi-sub">Total since launch</div>
+          <span class="kpi-delta up">↑ 32.4% vs prev 30d</span>
+          <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,26 10,22 20,24 30,16 40,18 50,10 60,12 70,4 80,6" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Unique Visitors</div>
+          <div class="kpi-value">9,841</div>
+          <div class="kpi-sub">Last 30 days</div>
+          <span class="kpi-delta up">↑ 18.7%</span>
+          <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,22 10,20 20,18 30,15 40,16 50,11 60,9 70,7 80,5" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Avg Time on Site</div>
+          <div class="kpi-value">2:43</div>
+          <div class="kpi-sub">Median 2:18</div>
+          <span class="kpi-delta up">↑ 0:24</span>
+          <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,18 10,20 20,17 30,14 40,16 50,11 60,12 70,9 80,8" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Trailer Play Rate</div>
+          <div class="kpi-value">68.4%</div>
+          <div class="kpi-sub">6,733 plays / 9,841 sessions</div>
+          <span class="kpi-delta down">↓ 2.1%</span>
+          <svg class="kpi-spark" width="80" height="32" viewBox="0 0 80 32"><polyline points="0,8 10,10 20,7 30,9 40,11 50,12 60,10 70,13 80,14" fill="none" stroke="#f87171" stroke-width="1.5"/></svg>
+        </div>
+      </section>
+
+      <section class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Sessions over time</div>
+              <div class="card-sub">Daily NFC taps vs. organic web visits, last 30 days</div>
+            </div>
+            <div class="card-action">▲ 32.4%</div>
           </div>
-          <div class="card-action">▲ 32.4%</div>
-        </div>
-        <svg class="line-chart" viewBox="0 0 600 200" preserveAspectRatio="none">
-          <!-- Grid -->
-          <line x1="0" y1="40" x2="600" y2="40" stroke="#1f1f1f" stroke-width="1"/>
-          <line x1="0" y1="80" x2="600" y2="80" stroke="#1f1f1f" stroke-width="1"/>
-          <line x1="0" y1="120" x2="600" y2="120" stroke="#1f1f1f" stroke-width="1"/>
-          <line x1="0" y1="160" x2="600" y2="160" stroke="#1f1f1f" stroke-width="1"/>
-          <!-- NFC area -->
-          <path d="M0,170 L20,160 L40,155 L60,148 L80,130 L100,135 L120,118 L140,110 L160,95 L180,98 L200,82 L220,78 L240,90 L260,72 L280,68 L300,55 L320,62 L340,48 L360,52 L380,40 L400,44 L420,38 L440,30 L460,42 L480,32 L500,28 L520,35 L540,22 L560,28 L580,18 L600,22 L600,200 L0,200 Z" fill="url(#nfcFill)" opacity="0.5"/>
-          <path d="M0,170 L20,160 L40,155 L60,148 L80,130 L100,135 L120,118 L140,110 L160,95 L180,98 L200,82 L220,78 L240,90 L260,72 L280,68 L300,55 L320,62 L340,48 L360,52 L380,40 L400,44 L420,38 L440,30 L460,42 L480,32 L500,28 L520,35 L540,22 L560,28 L580,18 L600,22" fill="none" stroke="#fff" stroke-width="2"/>
-          <!-- Web visits line -->
-          <path d="M0,180 L20,178 L40,172 L60,170 L80,165 L100,168 L120,160 L140,158 L160,150 L180,152 L200,145 L220,142 L240,148 L260,138 L280,135 L300,130 L320,132 L340,125 L360,128 L380,120 L400,122 L420,118 L440,115 L460,120 L480,112 L500,110 L520,115 L540,105 L560,108 L580,100 L600,103" fill="none" stroke="#9a9a9a" stroke-width="1.5" stroke-dasharray="3,3"/>
-          <defs>
-            <linearGradient id="nfcFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div style="display: flex; gap: 18px; margin-top: 14px; font-size: 12px; color: var(--text-dim);">
-          <span class="row"><span style="width: 12px; height: 2px; background: #fff;"></span> NFC Taps</span>
-          <span class="row"><span style="width: 12px; height: 2px; background: #9a9a9a; border-bottom: 1px dashed;"></span> Web Visits</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Trailer Funnel</div>
-            <div class="card-sub">From play to completion</div>
-          </div>
-        </div>
-        <div class="funnel">
-          <div class="funnel-step"><div class="fname">Sessions</div><div><div class="fval">9,841</div></div></div>
-          <div class="funnel-step" style="border-left-color:#e5e5e5; opacity: 0.95;"><div class="fname">Trailer Started</div><div><div class="fval">6,733</div><div class="fdrop">−31.6%</div></div></div>
-          <div class="funnel-step" style="border-left-color:#bdbdbd; opacity: 0.9;"><div class="fname">Reached 25%</div><div><div class="fval">5,914</div><div class="fdrop">−12.2%</div></div></div>
-          <div class="funnel-step" style="border-left-color:#9a9a9a; opacity: 0.85;"><div class="fname">Reached 50%</div><div><div class="fval">5,127</div><div class="fdrop">−13.3%</div></div></div>
-          <div class="funnel-step" style="border-left-color:#6b6b6b; opacity: 0.8;"><div class="fname">Reached 75%</div><div><div class="fval">4,489</div><div class="fdrop">−12.4%</div></div></div>
-          <div class="funnel-step" style="border-left-color:#c1121f; opacity: 0.95;"><div class="fname">Completed Trailer</div><div><div class="fval">3,802</div><div class="fdrop">−15.3%</div></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB ENGAGEMENT + DEVICES + CAST INTEREST -->
-    <section class="grid-3">
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Tab engagement</div>
-            <div class="card-sub">% of sessions viewing each tab</div>
-          </div>
-        </div>
-        <div class="bar-list">
-          <div class="bar-row"><div class="lbl">Video<small>Default landing</small></div><div class="bar-track"><div class="bar-fill" style="width: 100%;"></div></div><div class="val">100%</div></div>
-          <div class="bar-row"><div class="lbl">Cast<small>Bio reveals</small></div><div class="bar-track"><div class="bar-fill" style="width: 58%;"></div></div><div class="val">58%</div></div>
-          <div class="bar-row"><div class="lbl">BTS<small>Photo gallery</small></div><div class="bar-track"><div class="bar-fill" style="width: 41%;"></div></div><div class="val">41%</div></div>
-          <div class="bar-row"><div class="lbl">Forum<small>Discussion</small></div><div class="bar-track"><div class="bar-fill" style="width: 22%;"></div></div><div class="val">22%</div></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Device split</div>
-            <div class="card-sub">Among NFC tap-ins</div>
-          </div>
-        </div>
-        <div class="donut-wrap">
-          <svg class="donut" width="120" height="120" viewBox="0 0 42 42">
-            <!-- iOS 78% -->
-            <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#fff" stroke-width="6" stroke-dasharray="78 22" stroke-dashoffset="25"/>
-            <!-- Android 19% -->
-            <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#9a9a9a" stroke-width="6" stroke-dasharray="19 81" stroke-dashoffset="-53"/>
-            <!-- Other 3% -->
-            <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#c1121f" stroke-width="6" stroke-dasharray="3 97" stroke-dashoffset="-72"/>
-            <text x="21" y="20" text-anchor="middle" font-size="6" fill="#fff" font-weight="700">9,841</text>
-            <text x="21" y="26" text-anchor="middle" font-size="3" fill="#9a9a9a">visitors</text>
+          <svg class="line-chart" viewBox="0 0 600 200" preserveAspectRatio="none">
+            <line x1="0" y1="40" x2="600" y2="40" stroke="#1f1f1f" stroke-width="1"/>
+            <line x1="0" y1="80" x2="600" y2="80" stroke="#1f1f1f" stroke-width="1"/>
+            <line x1="0" y1="120" x2="600" y2="120" stroke="#1f1f1f" stroke-width="1"/>
+            <line x1="0" y1="160" x2="600" y2="160" stroke="#1f1f1f" stroke-width="1"/>
+            <path d="M0,170 L20,160 L40,155 L60,148 L80,130 L100,135 L120,118 L140,110 L160,95 L180,98 L200,82 L220,78 L240,90 L260,72 L280,68 L300,55 L320,62 L340,48 L360,52 L380,40 L400,44 L420,38 L440,30 L460,42 L480,32 L500,28 L520,35 L540,22 L560,28 L580,18 L600,22 L600,200 L0,200 Z" fill="url(#nfcFill)" opacity="0.5"/>
+            <path d="M0,170 L20,160 L40,155 L60,148 L80,130 L100,135 L120,118 L140,110 L160,95 L180,98 L200,82 L220,78 L240,90 L260,72 L280,68 L300,55 L320,62 L340,48 L360,52 L380,40 L400,44 L420,38 L440,30 L460,42 L480,32 L500,28 L520,35 L540,22 L560,28 L580,18 L600,22" fill="none" stroke="#fff" stroke-width="2"/>
+            <path d="M0,180 L20,178 L40,172 L60,170 L80,165 L100,168 L120,160 L140,158 L160,150 L180,152 L200,145 L220,142 L240,148 L260,138 L280,135 L300,130 L320,132 L340,125 L360,128 L380,120 L400,122 L420,118 L440,115 L460,120 L480,112 L500,110 L520,115 L540,105 L560,108 L580,100 L600,103" fill="none" stroke="#9a9a9a" stroke-width="1.5" stroke-dasharray="3,3"/>
+            <defs>
+              <linearGradient id="nfcFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
           </svg>
-          <div class="donut-legend">
-            <div class="donut-row"><span class="swatch" style="background: #fff;"></span><span class="dname">iOS</span><span class="dpct">78%</span></div>
-            <div class="donut-row"><span class="swatch" style="background: #9a9a9a;"></span><span class="dname">Android</span><span class="dpct">19%</span></div>
-            <div class="donut-row"><span class="swatch" style="background: #c1121f;"></span><span class="dname">Other</span><span class="dpct">3%</span></div>
+          <div style="display: flex; gap: 18px; margin-top: 14px; font-size: 12px; color: var(--text-dim);">
+            <span class="row"><span style="width: 12px; height: 2px; background: #fff;"></span> NFC Taps</span>
+            <span class="row"><span style="width: 12px; height: 2px; background: #9a9a9a; border-bottom: 1px dashed;"></span> Web Visits</span>
           </div>
         </div>
-        <div style="margin-top: 18px; font-size: 11px; color: var(--text-mute); padding-top: 14px; border-top: 1px solid var(--line);">iPhone 15 is the top model — 28% of all taps.</div>
-      </div>
 
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Cast interest</div>
-            <div class="card-sub">Most-expanded bios</div>
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Trailer Funnel</div><div class="card-sub">From play to completion</div></div></div>
+          <div class="funnel">
+            <div class="funnel-step"><div class="fname">Sessions</div><div><div class="fval">9,841</div></div></div>
+            <div class="funnel-step" style="border-left-color:#e5e5e5; opacity: 0.95;"><div class="fname">Trailer Started</div><div><div class="fval">6,733</div><div class="fdrop">−31.6%</div></div></div>
+            <div class="funnel-step" style="border-left-color:#bdbdbd; opacity: 0.9;"><div class="fname">Reached 25%</div><div><div class="fval">5,914</div><div class="fdrop">−12.2%</div></div></div>
+            <div class="funnel-step" style="border-left-color:#9a9a9a; opacity: 0.85;"><div class="fname">Reached 50%</div><div><div class="fval">5,127</div><div class="fdrop">−13.3%</div></div></div>
+            <div class="funnel-step" style="border-left-color:#6b6b6b; opacity: 0.8;"><div class="fname">Reached 75%</div><div><div class="fval">4,489</div><div class="fdrop">−12.4%</div></div></div>
+            <div class="funnel-step" style="border-left-color:#c1121f; opacity: 0.95;"><div class="fname">Completed Trailer</div><div><div class="fval">3,802</div><div class="fdrop">−15.3%</div></div></div>
           </div>
         </div>
-        <div class="cast-bar-list">
-          <div class="cast-bar-row">
-            <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/1f7f5add-dd3f-47e5-b0a8-ed4e00f29962/media_15293ce57c1e5535ff2ea35261a00aa0f015d355f.png?format=300w')"></div>
-            <div class="cast-bar-body">
-              <div class="cast-bar-name">Kid Cudi</div>
-              <div class="cast-bar-role">Barry</div>
-              <div class="cast-bar-track"><div class="cast-bar-fill" style="width: 100%; background: linear-gradient(90deg, #fff, #d4d4d4);"></div></div>
+      </section>
+
+      <section class="grid-3">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Tab engagement</div><div class="card-sub">% of sessions viewing each tab</div></div></div>
+          <div class="bar-list">
+            <div class="bar-row"><div class="lbl">Video<small>Default landing</small></div><div class="bar-track"><div class="bar-fill" style="width: 100%;"></div></div><div class="val">100%</div></div>
+            <div class="bar-row"><div class="lbl">Cast<small>Bio reveals</small></div><div class="bar-track"><div class="bar-fill" style="width: 58%;"></div></div><div class="val">58%</div></div>
+            <div class="bar-row"><div class="lbl">BTS<small>Photo gallery</small></div><div class="bar-track"><div class="bar-fill" style="width: 41%;"></div></div><div class="val">41%</div></div>
+            <div class="bar-row"><div class="lbl">Forum<small>Discussion</small></div><div class="bar-track"><div class="bar-fill" style="width: 22%;"></div></div><div class="val">22%</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Device split</div><div class="card-sub">Among NFC tap-ins</div></div></div>
+          <div class="donut-wrap">
+            <svg class="donut" width="120" height="120" viewBox="0 0 42 42">
+              <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#fff" stroke-width="6" stroke-dasharray="78 22" stroke-dashoffset="25"/>
+              <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#9a9a9a" stroke-width="6" stroke-dasharray="19 81" stroke-dashoffset="-53"/>
+              <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#c1121f" stroke-width="6" stroke-dasharray="3 97" stroke-dashoffset="-72"/>
+              <text x="21" y="20" text-anchor="middle" font-size="6" fill="#fff" font-weight="700">9,841</text>
+              <text x="21" y="26" text-anchor="middle" font-size="3" fill="#9a9a9a">visitors</text>
+            </svg>
+            <div class="donut-legend">
+              <div class="donut-row"><span class="swatch" style="background: #fff;"></span><span class="dname">iOS</span><span class="dpct">78%</span></div>
+              <div class="donut-row"><span class="swatch" style="background: #9a9a9a;"></span><span class="dname">Android</span><span class="dpct">19%</span></div>
+              <div class="donut-row"><span class="swatch" style="background: #c1121f;"></span><span class="dname">Other</span><span class="dpct">3%</span></div>
             </div>
-            <div class="cast-bar-val">3,412</div>
           </div>
-          <div class="cast-bar-row">
-            <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/081d9cd0-60c1-491e-851d-25d6a9869d62/jerry-oconnell-2025-oscars-021316-43eee350443044afbd80fc05d3f31bdf.jpg?format=300w')"></div>
-            <div class="cast-bar-body">
-              <div class="cast-bar-name">Jerry O'Connell</div>
-              <div class="cast-bar-role">The Milk Man</div>
-              <div class="cast-bar-track"><div class="cast-bar-fill" style="width: 76%; background: linear-gradient(90deg, #e5e5e5, #b4b4b4);"></div></div>
+          <div style="margin-top: 18px; font-size: 11px; color: var(--text-mute); padding-top: 14px; border-top: 1px solid var(--line);">iPhone 15 is the top model — 28% of all taps.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Cast interest</div><div class="card-sub">Most-expanded bios</div></div></div>
+          <div class="cast-bar-list">
+            <div class="cast-bar-row">
+              <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/1f7f5add-dd3f-47e5-b0a8-ed4e00f29962/media_15293ce57c1e5535ff2ea35261a00aa0f015d355f.png?format=300w')"></div>
+              <div class="cast-bar-body"><div class="cast-bar-name">Kid Cudi</div><div class="cast-bar-role">Barry</div><div class="cast-bar-track"><div class="cast-bar-fill" style="width: 100%; background: linear-gradient(90deg, #fff, #d4d4d4);"></div></div></div>
+              <div class="cast-bar-val">3,412</div>
             </div>
-            <div class="cast-bar-val">2,597</div>
-          </div>
-          <div class="cast-bar-row">
-            <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/9b246ce1-5327-4ea6-a0b0-d0bce53d6018/GettyImages-2161696087-H-2024.webp')"></div>
-            <div class="cast-bar-body">
-              <div class="cast-bar-name">Brandon Perea</div>
-              <div class="cast-bar-role">Jose</div>
-              <div class="cast-bar-track"><div class="cast-bar-fill" style="width: 64%; background: linear-gradient(90deg, #d4d4d4, #9a9a9a);"></div></div>
+            <div class="cast-bar-row">
+              <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/081d9cd0-60c1-491e-851d-25d6a9869d62/jerry-oconnell-2025-oscars-021316-43eee350443044afbd80fc05d3f31bdf.jpg?format=300w')"></div>
+              <div class="cast-bar-body"><div class="cast-bar-name">Jerry O'Connell</div><div class="cast-bar-role">The Milk Man</div><div class="cast-bar-track"><div class="cast-bar-fill" style="width: 76%; background: linear-gradient(90deg, #e5e5e5, #b4b4b4);"></div></div></div>
+              <div class="cast-bar-val">2,597</div>
             </div>
-            <div class="cast-bar-val">2,184</div>
-          </div>
-          <div class="cast-bar-row">
-            <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/11f9b4d1-0def-44aa-8d46-8c02f220c257/MV5BY2MwNGU3ODktNDMzZi00ZTMwLWE3ZGMtZmY4Nzg1ZGMwZDcwXkEyXkFqcGc%40._V1_FMjpg_UX1000_.jpg?format=300w')"></div>
-            <div class="cast-bar-body">
-              <div class="cast-bar-name">J Alphonse Nicholson</div>
-              <div class="cast-bar-role">Trey Carver</div>
-              <div class="cast-bar-track"><div class="cast-bar-fill" style="width: 49%; background: linear-gradient(90deg, #b4b4b4, #7c7c7c);"></div></div>
+            <div class="cast-bar-row">
+              <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/9b246ce1-5327-4ea6-a0b0-d0bce53d6018/GettyImages-2161696087-H-2024.webp')"></div>
+              <div class="cast-bar-body"><div class="cast-bar-name">Brandon Perea</div><div class="cast-bar-role">Jose</div><div class="cast-bar-track"><div class="cast-bar-fill" style="width: 64%; background: linear-gradient(90deg, #d4d4d4, #9a9a9a);"></div></div></div>
+              <div class="cast-bar-val">2,184</div>
             </div>
-            <div class="cast-bar-val">1,673</div>
-          </div>
-          <div class="cast-bar-row">
-            <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/4df196e6-f797-490a-8d86-cd4db856529b/MV5BNTVhYjc5NWMtYmY3Yi00NWMwLTk3ODYtOWFiMTA5NTVlZGEzXkEyXkFqcGc%40._V1_.jpg?format=300w')"></div>
-            <div class="cast-bar-body">
-              <div class="cast-bar-name">Rodney Van Johnson</div>
-              <div class="cast-bar-role">Marcus Carver</div>
-              <div class="cast-bar-track"><div class="cast-bar-fill" style="width: 31%; background: linear-gradient(90deg, #9a9a9a, #6b6b6b);"></div></div>
+            <div class="cast-bar-row">
+              <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/11f9b4d1-0def-44aa-8d46-8c02f220c257/MV5BY2MwNGU3ODktNDMzZi00ZTMwLWE3ZGMtZmY4Nzg1ZGMwZDcwXkEyXkFqcGc%40._V1_FMjpg_UX1000_.jpg?format=300w')"></div>
+              <div class="cast-bar-body"><div class="cast-bar-name">J Alphonse Nicholson</div><div class="cast-bar-role">Trey Carver</div><div class="cast-bar-track"><div class="cast-bar-fill" style="width: 49%; background: linear-gradient(90deg, #b4b4b4, #7c7c7c);"></div></div></div>
+              <div class="cast-bar-val">1,673</div>
             </div>
-            <div class="cast-bar-val">1,049</div>
+            <div class="cast-bar-row">
+              <div class="cast-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/4df196e6-f797-490a-8d86-cd4db856529b/MV5BNTVhYjc5NWMtYmY3Yi00NWMwLTk3ODYtOWFiMTA5NTVlZGEzXkEyXkFqcGc%40._V1_.jpg?format=300w')"></div>
+              <div class="cast-bar-body"><div class="cast-bar-name">Rodney Van Johnson</div><div class="cast-bar-role">Marcus Carver</div><div class="cast-bar-track"><div class="cast-bar-fill" style="width: 31%; background: linear-gradient(90deg, #9a9a9a, #6b6b6b);"></div></div></div>
+              <div class="cast-bar-val">1,049</div>
+            </div>
           </div>
+        </div>
+      </section>
+
+      <section class="grid-2">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Top cities</div><div class="card-sub">Where the keychains are getting tapped</div></div><div class="card-action">View map →</div></div>
+          <div class="geo-list">
+            <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">New York City<small>NY, USA</small></span><span class="gv">2,847</span><span class="gp">↑ 41%</span></div>
+            <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Los Angeles<small>CA, USA</small></span><span class="gv">1,962</span><span class="gp">↑ 28%</span></div>
+            <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Atlanta<small>GA, USA</small></span><span class="gv">1,134</span><span class="gp">↑ 35%</span></div>
+            <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Chicago<small>IL, USA</small></span><span class="gv">786</span><span class="gp">↑ 18%</span></div>
+            <div class="geo-row"><span class="flag">🇬🇧</span><span class="gn">London<small>England, UK</small></span><span class="gv">612</span><span class="gp">↑ 22%</span></div>
+            <div class="geo-row"><span class="flag">🇨🇦</span><span class="gn">Toronto<small>ON, Canada</small></span><span class="gv">488</span><span class="gp">↑ 14%</span></div>
+            <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Austin<small>TX, USA</small></span><span class="gv">421</span><span class="gp">↑ 9%</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Live activity</div><div class="card-sub">Last 5 minutes</div></div><span class="status-pill"><span class="ld"></span> Streaming</span></div>
+          <div class="activity">
+            <div class="activity-row"><span class="activity-time">just now</span><span class="activity-action">NFC tap <span class="ev">· landed on Video</span></span><span class="activity-loc">Brooklyn, NY</span></div>
+            <div class="activity-row"><span class="activity-time">12s ago</span><span class="activity-action">Trailer play <span class="ev">· started</span></span><span class="activity-loc">Echo Park, LA</span></div>
+            <div class="activity-row"><span class="activity-time">38s ago</span><span class="activity-action">Cast expanded <span class="ev">· Kid Cudi</span></span><span class="activity-loc">Atlanta, GA</span></div>
+            <div class="activity-row"><span class="activity-time">1m ago</span><span class="activity-action">BTS viewed <span class="ev">· 14 images</span></span><span class="activity-loc">Bushwick, NY</span></div>
+            <div class="activity-row"><span class="activity-time">1m ago</span><span class="activity-action">Forum thread opened <span class="ev">· milkman_theories</span></span><span class="activity-loc">Camden, London</span></div>
+            <div class="activity-row"><span class="activity-time">2m ago</span><span class="activity-action">Trailer completed <span class="ev">· 100%</span></span><span class="activity-loc">Silver Lake, LA</span></div>
+            <div class="activity-row"><span class="activity-time">2m ago</span><span class="activity-action">Cast expanded <span class="ev">· Jerry O'Connell</span></span><span class="activity-loc">East Village, NY</span></div>
+            <div class="activity-row"><span class="activity-time">3m ago</span><span class="activity-action">NFC tap <span class="ev">· landed on Video</span></span><span class="activity-loc">Toronto, ON</span></div>
+            <div class="activity-row"><span class="activity-time">4m ago</span><span class="activity-action">Cast expanded <span class="ev">· Brandon Perea</span></span><span class="activity-loc">Inglewood, LA</span></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer">© 2026, Ninety Third Story LLC · Spilled Milk Engagement Dashboard · Sample Data</div>
+    </div>
+
+    <!-- ========== CONTROL PANEL ========== -->
+    <div id="panel-control" class="panel">
+
+      <section class="page-head">
+        <h1>Keychain Control</h1>
+        <p>Manage individual keychain holders. Push personalized content, custom welcome messages, and gated experiences down to each NFC tag in real time.</p>
+        <div class="demo-banner">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 6l6.5 11h-13L12 8zm-1 4v3h2v-3h-2zm0 4v2h2v-2h-2z"/></svg>
+          <span>Demo data shown. Wire to your CRM (Airtable / Notion / DB) to manage real keychain inventory.</span>
+        </div>
+      </section>
+
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Active Keychains</div>
+          <div class="kpi-value">147</div>
+          <div class="kpi-sub">of 200 distributed</div>
+          <span class="kpi-delta up">↑ 12 this week</span>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Personalized Experiences</div>
+          <div class="kpi-value">38</div>
+          <div class="kpi-sub">Custom config active</div>
+          <span class="kpi-delta up">↑ 7</span>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Push Notifications Sent</div>
+          <div class="kpi-value">2,914</div>
+          <div class="kpi-sub">Last 30 days</div>
+          <span class="kpi-delta up">↑ 41%</span>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Locked / Revoked</div>
+          <div class="kpi-value">4</div>
+          <div class="kpi-sub">Lost or compromised</div>
+          <span class="kpi-delta down">2 new this week</span>
+        </div>
+      </section>
+
+      <div class="ctrl-toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" placeholder="Search by name, email, ID..." />
+        </div>
+        <div class="seg">
+          <button class="active">All <span style="color:var(--text-mute);font-weight:500;margin-left:4px">10</span></button>
+          <button>Active</button>
+          <button>Paused</button>
+          <button>Locked</button>
+        </div>
+        <div style="flex:1"></div>
+        <button class="btn-ghost">Export CSV</button>
+        <button class="btn-primary">
+          <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          Add Keychain
+        </button>
+      </div>
+
+      <div class="ctrl-layout">
+
+        <!-- LIST -->
+        <div class="holder-list-card">
+          <div class="holder-list-head">
+            <span class="holder-count">10 Keychains</span>
+            <span style="font-size:11px;color:var(--text-mute)">Sorted by recent tap</span>
+          </div>
+          <div class="holder-list" id="holder-list">
+
+            <div class="holder-item selected" data-id="0">
+              <div class="holder-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/1f7f5add-dd3f-47e5-b0a8-ed4e00f29962/media_15293ce57c1e5535ff2ea35261a00aa0f015d355f.png?format=200w')"></div>
+              <div class="holder-info"><div class="holder-name">Scott Mescudi</div><div class="holder-id">SM-001 · Cast · 4 min ago</div></div>
+              <span class="holder-status active" title="Active"></span>
+            </div>
+
+            <div class="holder-item" data-id="1">
+              <div class="holder-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/081d9cd0-60c1-491e-851d-25d6a9869d62/jerry-oconnell-2025-oscars-021316-43eee350443044afbd80fc05d3f31bdf.jpg?format=200w')"></div>
+              <div class="holder-info"><div class="holder-name">Jerry O'Connell</div><div class="holder-id">SM-002 · Cast · 12 min ago</div></div>
+              <span class="holder-status active"></span>
+            </div>
+
+            <div class="holder-item" data-id="2">
+              <div class="holder-avi" style="background:#3a3a1a">JL</div>
+              <div class="holder-info"><div class="holder-name">Jared Leaf</div><div class="holder-id">SM-003 · Director · 38 min ago</div></div>
+              <span class="holder-status active"></span>
+            </div>
+
+            <div class="holder-item" data-id="3">
+              <div class="holder-avi" style="background:#1a3a5f">JP</div>
+              <div class="holder-info"><div class="holder-name">Jordan Peele</div><div class="holder-id">SM-004 · Exec Producer · 2h ago</div></div>
+              <span class="holder-status active"></span>
+            </div>
+
+            <div class="holder-item" data-id="4">
+              <div class="holder-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/9b246ce1-5327-4ea6-a0b0-d0bce53d6018/GettyImages-2161696087-H-2024.webp')"></div>
+              <div class="holder-info"><div class="holder-name">Brandon Perea</div><div class="holder-id">SM-005 · Cast · 3h ago</div></div>
+              <span class="holder-status active"></span>
+            </div>
+
+            <div class="holder-item" data-id="5">
+              <div class="holder-avi" style="background:#2c4a2c">WR</div>
+              <div class="holder-info"><div class="holder-name">Win Rosenfeld</div><div class="holder-id">SM-006 · Exec Producer · 5h ago</div></div>
+              <span class="holder-status active"></span>
+            </div>
+
+            <div class="holder-item" data-id="6">
+              <div class="holder-avi" style="background:#5a2c2c">EC</div>
+              <div class="holder-info"><div class="holder-name">Erin Caldwell</div><div class="holder-id">SM-007 · HBO Exec · 1d ago</div></div>
+              <span class="holder-status new" title="New"></span>
+            </div>
+
+            <div class="holder-item" data-id="7">
+              <div class="holder-avi" style="background:#3a2a4a">MV</div>
+              <div class="holder-info"><div class="holder-name">Marcus Velasquez</div><div class="holder-id">SM-008 · Press · Variety · 1d ago</div></div>
+              <span class="holder-status active"></span>
+            </div>
+
+            <div class="holder-item" data-id="8">
+              <div class="holder-avi" style="background:#4a3a1a">TS</div>
+              <div class="holder-info"><div class="holder-name">Tasha Singh</div><div class="holder-id">SM-009 · A24 Acquisitions · 2d ago</div></div>
+              <span class="holder-status paused" title="Paused"></span>
+            </div>
+
+            <div class="holder-item" data-id="9">
+              <div class="holder-avi" style="background:#2a2a2a">??</div>
+              <div class="holder-info"><div class="holder-name">Unassigned · TIFF Booth</div><div class="holder-id">SM-010 · Pool · 5d ago</div></div>
+              <span class="holder-status locked" title="Locked"></span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- DETAIL -->
+        <div class="ctrl-detail-card" id="ctrl-detail">
+
+          <div class="ctrl-detail-head">
+            <div class="ctrl-detail-avi" id="d-avi" style="background-image:url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/1f7f5add-dd3f-47e5-b0a8-ed4e00f29962/media_15293ce57c1e5535ff2ea35261a00aa0f015d355f.png?format=300w')"></div>
+            <div style="flex:1; min-width:0;">
+              <div class="ctrl-detail-name" id="d-name">Scott "Kid Cudi" Mescudi</div>
+              <div class="ctrl-detail-id" id="d-tag">Keychain ID · SM-001-7F4A-92B1-NFC</div>
+              <span class="ctrl-status-tag active" id="d-status">● Active</span>
+            </div>
+            <div class="ctrl-detail-actions">
+              <button class="btn-ghost">📲 Push Notification</button>
+              <button class="btn-ghost">View as User</button>
+            </div>
+          </div>
+
+          <!-- IDENTITY -->
+          <div class="info-grid">
+            <div class="info-field"><div class="info-field-label">Full Name</div><div class="info-field-value" id="d-fullname">Scott Ramon Seguro Mescudi</div></div>
+            <div class="info-field"><div class="info-field-label">Email</div><div class="info-field-value" id="d-email"><a href="#">scott@wickedawesome.com</a></div></div>
+            <div class="info-field"><div class="info-field-label">Phone</div><div class="info-field-value" id="d-phone">+1 (310) 555-0142</div></div>
+            <div class="info-field"><div class="info-field-label">City</div><div class="info-field-value" id="d-city">Los Angeles, CA · USA</div></div>
+            <div class="info-field"><div class="info-field-label">Role / Tier</div><div class="info-field-value" id="d-role">Cast · VIP All-Access</div></div>
+            <div class="info-field"><div class="info-field-label">Last Tap</div><div class="info-field-value" id="d-lasttap">4 min ago · Silver Lake, LA</div></div>
+            <div class="info-field"><div class="info-field-label">Total Taps</div><div class="info-field-value" id="d-taps">847 taps · 312 unique sessions</div></div>
+            <div class="info-field"><div class="info-field-label">Distributed</div><div class="info-field-value" id="d-dist">Nov 12, 2026 · TIFF Premiere</div></div>
+          </div>
+
+          <!-- LANDING EXPERIENCE -->
+          <div class="ctrl-section">
+            <div class="ctrl-section-title">Personalized Landing Experience</div>
+            <div class="form-row">
+              <label>Custom welcome message (shown on tap)</label>
+              <textarea>Welcome back, Scott. We've been rewatching your scenes on loop. New BTS just dropped — your "Watch Your Step!" theme is hitting different.</textarea>
+              <div class="hint">Shown as a marquee/banner above the curtain reveal. Supports emoji.</div>
+            </div>
+            <div class="form-row">
+              <label>Default landing tab</label>
+              <select><option>Video (default)</option><option selected>BTS (personalized)</option><option>Cast</option><option>Forum</option></select>
+            </div>
+            <div class="form-row">
+              <label>Custom CTA button</label>
+              <input type="text" value="Listen to the Score on Spotify" />
+              <input type="text" value="https://open.spotify.com/track/...placeholder" style="margin-top:6px" />
+            </div>
+          </div>
+
+          <!-- VISIBLE CONTENT -->
+          <div class="ctrl-section">
+            <div class="ctrl-section-title">Visible Content</div>
+            <div class="toggle-grid">
+              <div class="toggle-row">
+                <div><div class="tname">Video Tab</div><div class="tsub">Trailer + film stats</div></div>
+                <label class="toggle"><input type="checkbox" checked /><span class="track"></span></label>
+              </div>
+              <div class="toggle-row">
+                <div><div class="tname">Forum Tab</div><div class="tsub">Public discussion threads</div></div>
+                <label class="toggle"><input type="checkbox" checked /><span class="track"></span></label>
+              </div>
+              <div class="toggle-row">
+                <div><div class="tname">Cast Tab</div><div class="tsub">Bios and credits</div></div>
+                <label class="toggle"><input type="checkbox" checked /><span class="track"></span></label>
+              </div>
+              <div class="toggle-row">
+                <div><div class="tname">BTS Tab</div><div class="tsub">Photo gallery</div></div>
+                <label class="toggle"><input type="checkbox" checked /><span class="track"></span></label>
+              </div>
+              <div class="toggle-row" style="border-color:rgba(96,165,250,0.3); background:rgba(96,165,250,0.05);">
+                <div><div class="tname">🔒 Exclusive: Full Film Stream</div><div class="tsub">Private screener · 720p</div></div>
+                <label class="toggle"><input type="checkbox" checked /><span class="track"></span></label>
+              </div>
+              <div class="toggle-row" style="border-color:rgba(96,165,250,0.3); background:rgba(96,165,250,0.05);">
+                <div><div class="tname">🔒 Director's Voice Memo</div><div class="tsub">Personal note from Jared</div></div>
+                <label class="toggle"><input type="checkbox" /><span class="track"></span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCHEDULE -->
+          <div class="ctrl-section">
+            <div class="ctrl-section-title">Schedule Content Drops</div>
+            <div class="schedule-grid">
+              <div class="form-row">
+                <label>Next reveal date</label>
+                <input type="text" value="Dec 15, 2026 — 8:00 PM PST" />
+                <div class="hint">Triggers a push notification when content unlocks.</div>
+              </div>
+              <div class="form-row">
+                <label>Expires</label>
+                <input type="text" value="Never (lifetime access)" />
+              </div>
+            </div>
+          </div>
+
+          <!-- AUDIT -->
+          <div class="ctrl-section">
+            <div class="ctrl-section-title">Recent Activity</div>
+            <div class="audit-list">
+              <div class="audit-row"><span class="audit-time">4 min ago</span><span class="audit-msg">Tapped keychain → opened BTS tab</span><span class="audit-loc">Silver Lake, LA</span></div>
+              <div class="audit-row"><span class="audit-time">2h ago</span><span class="audit-msg">Played trailer to 100%</span><span class="audit-loc">Silver Lake, LA</span></div>
+              <div class="audit-row"><span class="audit-time">Yesterday</span><span class="audit-msg">Clicked custom CTA <span class="who">· Spotify</span></span><span class="audit-loc">Hollywood, LA</span></div>
+              <div class="audit-row"><span class="audit-time">Nov 24</span><span class="audit-msg">Custom message updated <span class="who">· by Jared L.</span></span><span class="audit-loc">Admin</span></div>
+              <div class="audit-row"><span class="audit-time">Nov 22</span><span class="audit-msg">Default tab changed to BTS <span class="who">· by you</span></span><span class="audit-loc">Admin</span></div>
+              <div class="audit-row"><span class="audit-time">Nov 12</span><span class="audit-msg">Keychain distributed at TIFF Premiere</span><span class="audit-loc">Toronto, ON</span></div>
+            </div>
+          </div>
+
+          <!-- DANGER ZONE -->
+          <div class="ctrl-section">
+            <div class="ctrl-section-title" style="color: var(--bad);">Danger Zone</div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn-ghost">Pause Keychain</button>
+              <button class="btn-ghost">Reissue Tag</button>
+              <button class="btn-danger">Revoke Access</button>
+            </div>
+          </div>
+
+          <!-- SAVE BAR -->
+          <div class="save-bar">
+            <span class="dirty-msg">3 unsaved changes</span>
+            <div class="save-actions">
+              <button class="btn-ghost">Discard</button>
+              <button class="btn-primary">Save & Push to Keychain</button>
+            </div>
+          </div>
+
         </div>
       </div>
-    </section>
 
-    <!-- GEO + RECENT ACTIVITY -->
-    <section class="grid-2">
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Top cities</div>
-            <div class="card-sub">Where the keychains are getting tapped</div>
-          </div>
-          <div class="card-action">View map →</div>
-        </div>
-        <div class="geo-list">
-          <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">New York City<small>NY, USA</small></span><span class="gv">2,847</span><span class="gp">↑ 41%</span></div>
-          <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Los Angeles<small>CA, USA</small></span><span class="gv">1,962</span><span class="gp">↑ 28%</span></div>
-          <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Atlanta<small>GA, USA</small></span><span class="gv">1,134</span><span class="gp">↑ 35%</span></div>
-          <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Chicago<small>IL, USA</small></span><span class="gv">786</span><span class="gp">↑ 18%</span></div>
-          <div class="geo-row"><span class="flag">🇬🇧</span><span class="gn">London<small>England, UK</small></span><span class="gv">612</span><span class="gp">↑ 22%</span></div>
-          <div class="geo-row"><span class="flag">🇨🇦</span><span class="gn">Toronto<small>ON, Canada</small></span><span class="gv">488</span><span class="gp">↑ 14%</span></div>
-          <div class="geo-row"><span class="flag">🇺🇸</span><span class="gn">Austin<small>TX, USA</small></span><span class="gv">421</span><span class="gp">↑ 9%</span></div>
-        </div>
-      </div>
+      <div class="footer">© 2026, Ninety Third Story LLC · Keychain Control · Sample Data</div>
+    </div>
 
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Live activity</div>
-            <div class="card-sub">Last 5 minutes</div>
-          </div>
-          <span class="status-pill"><span class="ld"></span> Streaming</span>
-        </div>
-        <div class="activity">
-          <div class="activity-row"><span class="activity-time">just now</span><span class="activity-action">NFC tap <span class="ev">· landed on Video</span></span><span class="activity-loc">Brooklyn, NY</span></div>
-          <div class="activity-row"><span class="activity-time">12s ago</span><span class="activity-action">Trailer play <span class="ev">· started</span></span><span class="activity-loc">Echo Park, LA</span></div>
-          <div class="activity-row"><span class="activity-time">38s ago</span><span class="activity-action">Cast expanded <span class="ev">· Kid Cudi</span></span><span class="activity-loc">Atlanta, GA</span></div>
-          <div class="activity-row"><span class="activity-time">1m ago</span><span class="activity-action">BTS viewed <span class="ev">· 14 images</span></span><span class="activity-loc">Bushwick, NY</span></div>
-          <div class="activity-row"><span class="activity-time">1m ago</span><span class="activity-action">Forum thread opened <span class="ev">· milkman_theories</span></span><span class="activity-loc">Camden, London</span></div>
-          <div class="activity-row"><span class="activity-time">2m ago</span><span class="activity-action">Trailer completed <span class="ev">· 100%</span></span><span class="activity-loc">Silver Lake, LA</span></div>
-          <div class="activity-row"><span class="activity-time">2m ago</span><span class="activity-action">Cast expanded <span class="ev">· Jerry O'Connell</span></span><span class="activity-loc">East Village, NY</span></div>
-          <div class="activity-row"><span class="activity-time">3m ago</span><span class="activity-action">NFC tap <span class="ev">· landed on Video</span></span><span class="activity-loc">Toronto, ON</span></div>
-          <div class="activity-row"><span class="activity-time">4m ago</span><span class="activity-action">Cast expanded <span class="ev">· Brandon Perea</span></span><span class="activity-loc">Inglewood, LA</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="grid-2">
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Drop-off & retention</div>
-            <div class="card-sub">Sessions returning within 7 days</div>
-          </div>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 4px;">
-          <div style="text-align:center"><div style="background:#fff; height:90px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">Day 0</div><div style="font-size:12px; font-weight:700;">100%</div></div>
-          <div style="text-align:center"><div style="background:#e5e5e5; height:54px; margin-top: 36px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D1</div><div style="font-size:12px; font-weight:700;">60%</div></div>
-          <div style="text-align:center"><div style="background:#c0c0c0; height:40px; margin-top: 50px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D2</div><div style="font-size:12px; font-weight:700;">44%</div></div>
-          <div style="text-align:center"><div style="background:#9a9a9a; height:30px; margin-top: 60px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D3</div><div style="font-size:12px; font-weight:700;">33%</div></div>
-          <div style="text-align:center"><div style="background:#7c7c7c; height:25px; margin-top: 65px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D4</div><div style="font-size:12px; font-weight:700;">28%</div></div>
-          <div style="text-align:center"><div style="background:#6b6b6b; height:21px; margin-top: 69px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D5</div><div style="font-size:12px; font-weight:700;">23%</div></div>
-          <div style="text-align:center"><div style="background:#c1121f; height:18px; margin-top: 72px; border-radius: 6px;"></div><div style="font-size:11px; color:#9a9a9a; margin-top:6px;">D7</div><div style="font-size:12px; font-weight:700;">20%</div></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <div>
-            <div class="card-title">Forum activity</div>
-            <div class="card-sub">7-day rolling</div>
-          </div>
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-          <div style="padding:14px; background: var(--panel-2); border-radius:10px;">
-            <div style="font-size:11px; color:var(--text-dim); letter-spacing:0.16em; text-transform:uppercase;">Threads</div>
-            <div style="font-size:24px; font-weight:700; margin-top:4px;">147</div>
-            <div style="font-size:11px; color: var(--good); margin-top:4px;">↑ 22 this week</div>
-          </div>
-          <div style="padding:14px; background: var(--panel-2); border-radius:10px;">
-            <div style="font-size:11px; color:var(--text-dim); letter-spacing:0.16em; text-transform:uppercase;">Replies</div>
-            <div style="font-size:24px; font-weight:700; margin-top:4px;">1,284</div>
-            <div style="font-size:11px; color: var(--good); margin-top:4px;">↑ 186 this week</div>
-          </div>
-          <div style="padding:14px; background: var(--panel-2); border-radius:10px;">
-            <div style="font-size:11px; color:var(--text-dim); letter-spacing:0.16em; text-transform:uppercase;">Active Users</div>
-            <div style="font-size:24px; font-weight:700; margin-top:4px;">412</div>
-            <div style="font-size:11px; color: var(--good); margin-top:4px;">↑ 8% WoW</div>
-          </div>
-          <div style="padding:14px; background: var(--panel-2); border-radius:10px;">
-            <div style="font-size:11px; color:var(--text-dim); letter-spacing:0.16em; text-transform:uppercase;">Top Tag</div>
-            <div style="font-size:19px; font-weight:700; margin-top:4px;">#theories</div>
-            <div style="font-size:11px; color: var(--text-dim); margin-top:4px;">68 threads</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">© 2026, Ninety Third Story LLC · Spilled Milk Engagement Dashboard · Sample Data</div>
   </main>
+
+  <script>
+    (function() {
+      // Top-level tab nav
+      const tabs = document.querySelectorAll('.nav-tab');
+      const panels = document.querySelectorAll('.panel');
+      tabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.panel;
+          tabs.forEach(b => b.classList.toggle('active', b === btn));
+          panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + target));
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        });
+      });
+
+      // Holder data
+      const holders = [
+        { name: 'Scott "Kid Cudi" Mescudi', fullname: 'Scott Ramon Seguro Mescudi', email: 'scott@wickedawesome.com', phone: '+1 (310) 555-0142', city: 'Los Angeles, CA · USA', role: 'Cast · VIP All-Access', tag: 'SM-001-7F4A-92B1-NFC', lasttap: '4 min ago · Silver Lake, LA', taps: '847 taps · 312 unique sessions', dist: 'Nov 12, 2026 · TIFF Premiere', status: 'active', avi: "url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/1f7f5add-dd3f-47e5-b0a8-ed4e00f29962/media_15293ce57c1e5535ff2ea35261a00aa0f015d355f.png?format=300w')" },
+        { name: "Jerry O'Connell", fullname: "Jerry O'Connell", email: 'jerry@oconnellinc.com', phone: '+1 (212) 555-0188', city: 'New York City, NY · USA', role: 'Cast · The Milk Man', tag: 'SM-002-4D2E-A09C-NFC', lasttap: '12 min ago · East Village, NY', taps: '412 taps · 156 unique sessions', dist: 'Nov 12, 2026 · TIFF Premiere', status: 'active', avi: "url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/081d9cd0-60c1-491e-851d-25d6a9869d62/jerry-oconnell-2025-oscars-021316-43eee350443044afbd80fc05d3f31bdf.jpg?format=300w')" },
+        { name: 'Jared Leaf', fullname: 'Jared Leaf', email: 'jared@93rdstory.com', phone: '+1 (818) 555-0119', city: 'Los Angeles, CA · USA', role: 'Director · Master Key', tag: 'SM-003-MSTR-0001-NFC', lasttap: '38 min ago · Burbank, LA', taps: '1,284 taps · admin access', dist: 'Oct 1, 2026 · Original issue', status: 'active', avi: '' },
+        { name: 'Jordan Peele', fullname: 'Jordan Haworth Peele', email: 'jp@monkeypaw.com', phone: '+1 (323) 555-0167', city: 'Los Angeles, CA · USA', role: 'Executive Producer', tag: 'SM-004-EP01-8C3F-NFC', lasttap: '2h ago · Beverly Hills, LA', taps: '203 taps · 87 unique sessions', dist: 'Nov 12, 2026 · TIFF Premiere', status: 'active', avi: '' },
+        { name: 'Brandon Perea', fullname: 'Brandon Perea', email: 'brandon@p-management.com', phone: '+1 (310) 555-0205', city: 'Inglewood, CA · USA', role: 'Cast · Jose', tag: 'SM-005-CST3-B1A2-NFC', lasttap: '3h ago · Inglewood, LA', taps: '294 taps · 118 unique sessions', dist: 'Nov 12, 2026 · TIFF Premiere', status: 'active', avi: "url('https://images.squarespace-cdn.com/content/v1/69e67b2046fc6c1a50002464/9b246ce1-5327-4ea6-a0b0-d0bce53d6018/GettyImages-2161696087-H-2024.webp')" },
+        { name: 'Win Rosenfeld', fullname: 'Winston Rosenfeld', email: 'win@monkeypaw.com', phone: '+1 (323) 555-0193', city: 'Los Angeles, CA · USA', role: 'Executive Producer', tag: 'SM-006-EP02-5A8B-NFC', lasttap: '5h ago · West Hollywood, LA', taps: '178 taps · 76 unique sessions', dist: 'Nov 12, 2026 · TIFF Premiere', status: 'active', avi: '' },
+        { name: 'Erin Caldwell', fullname: 'Erin Caldwell', email: 'ecaldwell@hbo.com', phone: '+1 (212) 555-0301', city: 'New York City, NY · USA', role: 'HBO · SVP Acquisitions', tag: 'SM-007-HBO1-D2E7-NFC', lasttap: '1d ago · Bryant Park, NY', taps: '12 taps · 8 unique sessions', dist: 'Nov 25, 2026 · HBO Screening', status: 'new', avi: '' },
+        { name: 'Marcus Velasquez', fullname: 'Marcus Velasquez', email: 'mvelasquez@variety.com', phone: '+1 (323) 555-0418', city: 'Los Angeles, CA · USA', role: 'Press · Variety Magazine', tag: 'SM-008-PRSS-3F4E-NFC', lasttap: '1d ago · Mid-City, LA', taps: '47 taps · 19 unique sessions', dist: 'Nov 20, 2026 · Press Junket', status: 'active', avi: '' },
+        { name: 'Tasha Singh', fullname: 'Tasha Singh', email: 'tasha.singh@a24films.com', phone: '+1 (212) 555-0566', city: 'New York City, NY · USA', role: 'A24 · Acquisitions', tag: 'SM-009-A241-9C2A-NFC', lasttap: '2d ago · Williamsburg, NY', taps: '8 taps · 4 unique sessions', dist: 'Nov 24, 2026 · NYC Screening', status: 'paused', avi: '' },
+        { name: 'Unassigned · TIFF Booth', fullname: '—', email: 'unassigned-010@spilledmilkthemovie.com', phone: '—', city: 'Toronto, ON · Canada', role: 'Pool · Festival giveaway', tag: 'SM-010-POOL-FF00-NFC', lasttap: '5d ago · TIFF Box Office', taps: '4 taps · 4 unique sessions', dist: 'Nov 8, 2026 · Pool inventory', status: 'locked', avi: '' }
+      ];
+
+      const statusLabel = { active: '● Active', paused: '● Paused', locked: '● Locked', new: '● New' };
+
+      function selectHolder(idx) {
+        const items = document.querySelectorAll('.holder-item');
+        items.forEach((it, i) => it.classList.toggle('selected', i === idx));
+        const h = holders[idx];
+        const aviEl = document.getElementById('d-avi');
+        if (h.avi) {
+          aviEl.style.backgroundImage = h.avi;
+          aviEl.textContent = '';
+        } else {
+          aviEl.style.backgroundImage = '';
+          aviEl.textContent = h.name.split(/\s+/).slice(0,2).map(w => w[0]).join('');
+        }
+        document.getElementById('d-name').textContent = h.name;
+        document.getElementById('d-tag').textContent = 'Keychain ID · ' + h.tag;
+        document.getElementById('d-fullname').textContent = h.fullname;
+        document.getElementById('d-email').innerHTML = '<a href="#">' + h.email + '</a>';
+        document.getElementById('d-phone').textContent = h.phone;
+        document.getElementById('d-city').textContent = h.city;
+        document.getElementById('d-role').textContent = h.role;
+        document.getElementById('d-lasttap').textContent = h.lasttap;
+        document.getElementById('d-taps').textContent = h.taps;
+        document.getElementById('d-dist').textContent = h.dist;
+        const st = document.getElementById('d-status');
+        st.className = 'ctrl-status-tag ' + h.status;
+        st.textContent = statusLabel[h.status];
+      }
+
+      document.querySelectorAll('.holder-item').forEach((item, i) => {
+        item.addEventListener('click', () => selectHolder(i));
+      });
+    })();
+  </script>
 
 </body>
 </html>
