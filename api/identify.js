@@ -1,5 +1,7 @@
 // /api/identify — captures NFC keychain holder identification
-// POST { name, id, returning, ts, ua, lang, tz, ref, path }
+// POST { name, user_id, keychain_id, returning, ts, ua, lang, tz, ref, path }
+//   - user_id     : device-bound random id we generate in the browser
+//   - keychain_id : the ?k=NNN value printed on the physical NFC tag
 //
 // MVP behavior: logs to Vercel's runtime logs (visible in the Vercel dashboard
 // under the project's Logs tab). To persist for the dashboard, wire one of:
@@ -26,7 +28,7 @@ export default async function handler(req, res) {
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
-    const { name, id, returning, ts, ua, lang, tz, ref, path } = body;
+    const { name, id, user_id, keychain_id, returning, ts, ua, lang, tz, ref, path } = body;
 
     // Basic validation
     if (!name || typeof name !== 'string' || name.length > 100) {
@@ -38,9 +40,27 @@ export default async function handler(req, res) {
       req.headers['x-real-ip'] ||
       null;
 
+    // Resolve keychain_id: prefer explicit field, else parse ?k= from path,
+    // else fall back to legacy `id` field for back-compat with first-deploy clients.
+    let keychainId = (keychain_id || '').toString().replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 16) || null;
+    if (!keychainId && typeof path === 'string' && path.includes('?')) {
+      const m = path.match(/[?&]k=([a-zA-Z0-9_-]{1,16})/);
+      if (m) keychainId = m[1];
+    }
+    if (!keychainId && id && typeof id === 'string' && !id.startsWith('sm_')) {
+      keychainId = id.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 16) || null;
+    }
+
+    const userId = (
+      user_id ||
+      (id && typeof id === 'string' && id.startsWith('sm_') ? id : '') ||
+      ''
+    ).toString().slice(0, 64) || null;
+
     const record = {
       name: name.slice(0, 100),
-      keychain_id: id || null,
+      keychain_id: keychainId,
+      user_id: userId,
       returning_visitor: !!returning,
       tapped_at: ts ? new Date(ts).toISOString() : new Date().toISOString(),
       ip,
