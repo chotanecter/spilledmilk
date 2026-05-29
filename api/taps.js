@@ -24,9 +24,12 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'GET')    return res.status(405).json({ error: 'GET only' });
 
-  const TOKEN = process.env.AIRTABLE_TOKEN;
-  const BASE  = process.env.AIRTABLE_BASE;
-  const TABLE = process.env.AIRTABLE_TABLE || 'Taps';
+  // Defensive: trim whitespace/newlines that frequently sneak in when env vars
+  // are pasted into Vercel's UI, and chop off anything after the first slash in
+  // the base id (people sometimes paste "appXXX/tblYYY" by mistake).
+  const TOKEN = (process.env.AIRTABLE_TOKEN || '').trim();
+  const BASE  = (process.env.AIRTABLE_BASE  || '').trim().split('/')[0];
+  const TABLE = (process.env.AIRTABLE_TABLE || 'Taps').trim();
 
   if (!TOKEN || !BASE) {
     return res.status(200).json({
@@ -90,6 +93,7 @@ export default async function handler(req, res) {
         all.push({
           id: rec.id,
           name: f['Name'] || null,
+          event: (f['Event'] || 'tap').toString().toLowerCase(),
           keychain_id: f['Keychain ID'] || null,
           user_id: f['User ID'] || null,
           returning: !!f['Returning'],
