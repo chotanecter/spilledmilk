@@ -62,8 +62,8 @@ export default async function handler(req, res) {
     while (true) {
       const params = new URLSearchParams();
       params.set('pageSize', '100');
-      params.set('sort[0][field]', 'Tapped At');
-      params.set('sort[0][direction]', 'desc');
+      // Don't sort by "Tapped At" — that field may not exist in every schema.
+      // We sort client-side after fetching, using whichever timestamp is present.
       if (filterByFormula) params.set('filterByFormula', filterByFormula);
       if (offset) params.set('offset', offset);
 
@@ -112,6 +112,13 @@ export default async function handler(req, res) {
       pages++;
       if (!offset || pages > 20) break; // hard ceiling = 2000 records
     }
+
+    // Sort client-side, newest first, on whichever timestamp is present.
+    all.sort((a, b) => {
+      const at = a.tapped_at ? new Date(a.tapped_at).getTime() : 0;
+      const bt = b.tapped_at ? new Date(b.tapped_at).getTime() : 0;
+      return bt - at;
+    });
 
     return res.status(200).json({
       ok: true,
